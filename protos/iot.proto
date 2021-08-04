@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package iot;
+
+// Machine control service
+service MachineControl {
+  rpc RegisterMachine (RegisterCmd) returns (RegisterResp) {}
+}
+
+// Register machine COMMAND message.
+message RegisterCmd {
+  uint32 cmd = 1;
+}
+
+// Register machine RESPONSE message.
+message RegisterResp {
+  uint32 status = 1;
+  uint32 uID = 2;
+}

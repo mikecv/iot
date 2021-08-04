@@ -1,0 +1,16 @@
+// Install grpc proto tools (system wide).
+$ sudo python3 -m pip install grpcio
+
+// Compiling proto file.
+
+// The client.
+// iot/machines/machine.py
+// iot/protos/iot.proto
+
+iot/machines $ python3 -m grpc_tools.protoc -I../protos --python_out=. --grpc_python_out=. ../protos/iot.proto
+
+// This generates files:
+// iot/machines/iot_pb2.py
+// iot/machines/iot_pb2_grpc.py
+
+// Repeat the above to generate proto/grpc files for the server.
