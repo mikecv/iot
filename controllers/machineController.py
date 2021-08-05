@@ -9,12 +9,14 @@ class MachineController(pb2_grpc.MachineControl):
     GRPC MachineControl messaging class.
     """
 
-    def __init__(self, config, log):
-        self.cfg = config
-        self.log = log
+    def __init__(self, controller):
+        self.ctrl = controller
 
     def RegisterMachine(self, request, context):
         if request.cmd == 1:
-            self.log.debug(f"Registration command received, cmd : {request.cmd}")
-            print(f"Registration command received, cmd : {request.cmd}")
-            return pb2.RegisterResp(status=0, uID=1)
+            # Create a new registered machine for the controller.
+            newUID = self.ctrl.issueUID()
+            self.ctrl.regNewMachine(newUID)
+
+            # Respond to the machine that it is registered.
+            return pb2.RegisterResp(status=0, uID=newUID)

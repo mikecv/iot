@@ -27,9 +27,36 @@ class Controller(Thread):
         self.cfg = config
         self.log = log
 
+        # Machine UIDs to be issued to registered machines.
+        self.nextUID = 1
+
+        # Array of registered machines.
+        self.regMachines = []
+
         # Initialise state of the controller.
         self.stayAlive = True
         self.state = ControllerState.STARTING
+
+    def issueUID(self) -> int:
+        """
+        Issue a UID to a new registering machine.
+        The UID is lost if registration fails or machine subsequently deregistered.
+        """
+
+        uid = self.nextUID
+        self.nextUID += 1
+        return uid
+
+    def regNewMachine(self, newUID):
+        """
+        Register a new machine with the following UID.
+        Creates a registered machine object.
+        <MDC> FOR NOW JUST ADD THE NEW UID TO THE LIST.
+        """
+
+        print(f"Registered new machine with UID : {newUID}")
+        self.log.debug(f"Registered new machine with UID : {newUID}")
+        self.regMachines.append(newUID)
 
     def run(self):
         """
@@ -40,7 +67,7 @@ class Controller(Thread):
 
         # Configure and start the server to listen for messages from machines.
         server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
-        pb2_grpc.add_MachineControlServicer_to_server(MachineController(self.cfg, self.log), server)
+        pb2_grpc.add_MachineControlServicer_to_server(MachineController(self), server)
         server.add_insecure_port('[::]:50051')
         server.start()
 
