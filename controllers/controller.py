@@ -68,7 +68,7 @@ class Controller(Thread):
         # Configure and start the server to listen for messages from machines.
         server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
         pb2_grpc.add_MachineControlServicer_to_server(MachineController(self), server)
-        server.add_insecure_port('[::]:50051')
+        server.add_insecure_port(f'[::]:{self.cfg.GRPC["ListenPort"]}')
         server.start()
 
         while self.stayAlive:

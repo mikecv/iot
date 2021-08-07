@@ -34,6 +34,12 @@ class Config():
             "MainSleep" : 1
         }
 
+        # gRPC settings.
+        self.GRPC = {
+            "ServerIP" : "127.0.0.1",
+            "ServerPort" : 50051
+        }
+
         # Read / update configuration from file.
         self.readConfig()
 
@@ -75,6 +81,18 @@ class Config():
                 except Exception:
                     self.Timers["MainSleep"] = paramSaved
                     updateConfig = True
+                try:
+                    paramSaved = self.GRPC["ServerIP"]
+                    self.GRPC["ServerIP"] = config["GRPC"]["ServerIP"]
+                except Exception:
+                    self.GRPC["ServerIP"] = paramSaved
+                    updateConfig = True
+                try:
+                    paramSaved = self.GRPC["ServerPort"]
+                    self.GRPC["ServerPort"] = config["GRPC"]["ServerPort"]
+                except Exception:
+                    self.GRPC["ServerPort"] = paramSaved
+                    updateConfig = True
 
                 # If required, i.e. couldn't update all data from user configuration, then save default.
                 if updateConfig:
@@ -100,6 +118,7 @@ class Config():
             "LogFileSize" : self.LogFileSize,
             "LogBackups" : self.LogBackups,
             "Timers" : self.Timers,
+            "GRPC" : self.GRPC
         }
 
         # Open file for writing.

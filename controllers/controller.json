@@ -5,5 +5,8 @@
     "LogBackups": 3,
     "Timers": {
         "MainSleep": 1
+    },
+    "GRPC": {
+        "ListenPort": 50051
     }
 }

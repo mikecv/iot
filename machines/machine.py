@@ -76,7 +76,8 @@ class Machine(Thread):
 
         self.log.info("Registering machine with controller.")
 
-        channel = grpc.insecure_channel('localhost:50051')
+        # channel = grpc.insecure_channel('localhost:50051')
+        channel = grpc.insecure_channel(f'{self.cfg.GRPC["ServerIP"]}:{self.cfg.GRPC["ServerPort"]}')
         stub = iot_pb2_grpc.MachineControlStub(channel)
         response = stub.RegisterMachine(iot_pb2.RegisterCmd(cmd=1))
 

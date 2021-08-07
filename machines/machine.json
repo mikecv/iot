@@ -4,6 +4,11 @@
     "LogFileSize": 100000,
     "LogBackups": 3,
     "Timers": {
-        "MainSleep": 1
+        "MainSleep": 1,
+        "PicCodedBgCol": 1
+    },
+    "GRPC": {
+        "ServerIP": "127.0.0.1",
+        "ServerPort": 50051
     }
 }

@@ -24,14 +24,19 @@ class Config():
         # Version of configuration.
         self.ConfigVersion = 1
 
-        # Logger configuration values
+        # Logger configuration values.
         self.DebugLevel = 10
         self.LogFileSize = 100000
         self.LogBackups = 3
 
-        # Timers
+        # Timers.
         self.Timers = {
             "MainSleep" : 1
+        }
+
+        # gRPC settings.
+        self.GRPC = {
+            "ListenPort" : 50051
         }
 
         # Read / update configuration from file.
@@ -71,9 +76,15 @@ class Config():
                     updateConfig = True
                 try:
                     paramSaved = self.Timers["MainSleep"]
-                    self.Timers["PicCodedBgCol"] = config["Timers"]["MainSleep"]
+                    self.Timers["MainSleep"] = config["Timers"]["MainSleep"]
                 except Exception:
                     self.Timers["MainSleep"] = paramSaved
+                    updateConfig = True
+                try:
+                    paramSaved = self.GRPC["ListenPort"]
+                    self.GRPC["ListenPort"] = config["GRPC"]["ListenPort"]
+                except Exception:
+                    self.GRPC["ListenPort"] = paramSaved
                     updateConfig = True
 
                 # If required, i.e. couldn't update all data from user configuration, then save default.
@@ -100,6 +111,7 @@ class Config():
             "LogFileSize" : self.LogFileSize,
             "LogBackups" : self.LogBackups,
             "Timers" : self.Timers,
+            "GRPC" : self.GRPC
         }
 
         # Open file for writing.
