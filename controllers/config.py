@@ -24,6 +24,9 @@ class Config():
         # Version of configuration.
         self.ConfigVersion = 1
 
+        # Custom controller name.
+        self.ControllerName = "Controller"
+
         # Logger configuration values.
         self.DebugLevel = 10
         self.LogFileSize = 100000
@@ -61,18 +64,29 @@ class Config():
                 # Update configuration values if possible.
                 # If not, just update with default + whatever values read.
                 updateConfig = False
-                paramSaved = ""
                 try:
+                    paramSaved = self.ControllerName
+                    self.ControllerName = config["ControllerName"]
+                except Exception:
+                    self.ControllerName = paramSaved
+                    updateConfig = True
+                try:
+                    paramSaved = self.DebugLevel
                     self.DebugLevel = config["DebugLevel"]
                 except Exception:
+                    self.DebugLevel = paramSaved
                     updateConfig = True
                 try:
+                    paramSaved = self.LogFileSize
                     self.LogFileSize = config["LogFileSize"]
                 except Exception:
+                    self.LogFileSize = paramSaved
                     updateConfig = True
                 try:
+                    paramSaved = self.LogBackups
                     self.LogBackups = config["LogBackups"]
                 except Exception:
+                    self.LogBackups = paramSaved
                     updateConfig = True
                 try:
                     paramSaved = self.Timers["MainSleep"]
@@ -107,6 +121,7 @@ class Config():
         # Format configuration data.
         cfgDict = {
             "ConfigVersion" : self.ConfigVersion,
+            "ControllerName" : self.ControllerName,
             "DebugLevel" : self.DebugLevel,
             "LogFileSize" : self.LogFileSize,
             "LogBackups" : self.LogBackups,

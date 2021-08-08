@@ -1,14 +1,16 @@
 {
     "ConfigVersion": 1,
+    "MachineName": "Loader",
     "DebugLevel": 10,
     "LogFileSize": 100000,
     "LogBackups": 3,
     "Timers": {
-        "MainSleep": 1,
-        "PicCodedBgCol": 1
+        "MainSleep": 1
     },
     "GRPC": {
         "ServerIP": "127.0.0.1",
-        "ServerPort": 50051
+        "ServerPort": 50051,
+        "RegRetries": 3,
+        "RegDelay": 5
     }
 }

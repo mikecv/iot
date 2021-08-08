@@ -24,6 +24,9 @@ class Config():
         # Version of configuration.
         self.ConfigVersion = 1
 
+        # Custom machine name.
+        self.MachineName = "Machine"
+
         # Logger configuration values
         self.DebugLevel = 10
         self.LogFileSize = 100000
@@ -37,7 +40,9 @@ class Config():
         # gRPC settings.
         self.GRPC = {
             "ServerIP" : "127.0.0.1",
-            "ServerPort" : 50051
+            "ServerPort" : 50051,
+            "RegRetries" : 3,
+            "RegDelay" : 5
         }
 
         # Read / update configuration from file.
@@ -64,16 +69,28 @@ class Config():
                 updateConfig = False
                 paramSaved = ""
                 try:
+                    paramSaved = self.MachineName
+                    self.MachineName = config["MachineName"]
+                except Exception:
+                    self.MachineName = paramSaved
+                    updateConfig = True
+                try:
+                    paramSaved = self.DebugLevel
                     self.DebugLevel = config["DebugLevel"]
                 except Exception:
+                    self.DebugLevel = paramSaved
                     updateConfig = True
                 try:
+                    paramSaved = self.LogFileSize
                     self.LogFileSize = config["LogFileSize"]
                 except Exception:
+                    self.LogFileSize = paramSaved
                     updateConfig = True
                 try:
+                    paramSaved = self.LogBackups
                     self.LogBackups = config["LogBackups"]
                 except Exception:
+                    self.LogBackups = paramSaved
                     updateConfig = True
                 try:
                     paramSaved = self.Timers["MainSleep"]
@@ -92,6 +109,18 @@ class Config():
                     self.GRPC["ServerPort"] = config["GRPC"]["ServerPort"]
                 except Exception:
                     self.GRPC["ServerPort"] = paramSaved
+                    updateConfig = True
+                try:
+                    paramSaved = self.GRPC["RegRetries"]
+                    self.GRPC["RegRetries"] = config["GRPC"]["RegRetries"]
+                except Exception:
+                    self.GRPC["RegRetries"] = paramSaved
+                    updateConfig = True
+                try:
+                    paramSaved = self.GRPC["RegDelay"]
+                    self.GRPC["RegDelay"] = config["GRPC"]["RegDelay"]
+                except Exception:
+                    self.GRPC["RegDelay"] = paramSaved
                     updateConfig = True
 
                 # If required, i.e. couldn't update all data from user configuration, then save default.
@@ -114,6 +143,7 @@ class Config():
         # Format configuration data.
         cfgDict = {
             "ConfigVersion" : self.ConfigVersion,
+            "MachineName" : self.MachineName,
             "DebugLevel" : self.DebugLevel,
             "LogFileSize" : self.LogFileSize,
             "LogBackups" : self.LogBackups,
