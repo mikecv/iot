@@ -1,22 +1,22 @@
 #!/usr/bin/env python3
 
-import iot_pb2 as pb2
-import iot_pb2_grpc as pb2_grpc
+import iot_pb2 as iot_pb2
+import iot_pb2_grpc as iot_pb2_grpc
 
 
-class MachineController(pb2_grpc.MachineControl):
+class MachineController(iot_pb2_grpc.MachineMessages):
     """
-    GRPC MachineControl messaging class.
+    GRPC MachineMessages messaging class.
     """
 
     def __init__(self, controller):
         self.ctrl = controller
 
     def RegisterMachine(self, request, context):
-        if request.cmd == 1:
+        if request.cmd == iot_pb2.MachineCmd.M_REGISTER:
             # Create a new registered machine for the controller.
             newUID = self.ctrl.issueUID()
             self.ctrl.regNewMachine(newUID)
 
             # Respond to the machine that it is registered.
-            return pb2.RegisterResp(status=0, uID=newUID)
+            return iot_pb2.RegisterResp(status=iot_pb2.MachineStatus.MS_GOOD, uID=newUID)

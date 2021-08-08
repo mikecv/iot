@@ -76,15 +76,19 @@ class Machine(Thread):
 
         self.log.info("Registering machine with controller.")
 
-        # channel = grpc.insecure_channel('localhost:50051')
         channel = grpc.insecure_channel(f'{self.cfg.GRPC["ServerIP"]}:{self.cfg.GRPC["ServerPort"]}')
-        stub = iot_pb2_grpc.MachineControlStub(channel)
-        response = stub.RegisterMachine(iot_pb2.RegisterCmd(cmd=1))
-
-        self.log.debug(f"Registration response received, status : {response.status}; uID : {response.uID}")
-        print(f"Registration response received, status : {response.status}; uID : {response.uID}")
-
-        self.state = MachineState.ACTIVE
+        stub = iot_pb2_grpc.MachineMessagesStub(channel)
+        try:
+            # Try and send a register machine command to the server.
+            response = stub.RegisterMachine(iot_pb2.RegisterCmd(cmd=iot_pb2.MachineCmd.M_REGISTER))
+            self.log.debug(f"Registration response received, status : {response.status}; uID : {response.uID}")
+            print(f"Registration response received, status : {response.status}; uID : {response.uID}")
+            self.state = MachineState.ACTIVE
+        except grpc.RpcError as rpc_error:
+            # Failed to receive response from server.
+            self.log.debug(f"GRPC error, code : {rpc_error.code()}; message : {rpc_error.details()}")
+            print(f"GRPC error, code : {rpc_error.code()}; message : {rpc_error.details()}")
+            self.state = MachineState.TERMINATING
 
     def process(self):
         """

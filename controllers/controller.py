@@ -3,7 +3,7 @@
 from concurrent import futures
 from threading import Thread
 import grpc
-import iot_pb2_grpc as pb2_grpc
+import iot_pb2_grpc as iot_pb2_grpc
 
 from constants import *
 from machineController import *
@@ -67,7 +67,7 @@ class Controller(Thread):
 
         # Configure and start the server to listen for messages from machines.
         server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
-        pb2_grpc.add_MachineControlServicer_to_server(MachineController(self), server)
+        iot_pb2_grpc.add_MachineMessagesServicer_to_server(MachineController(self), server)
         server.add_insecure_port(f'[::]:{self.cfg.GRPC["ListenPort"]}')
         server.start()
 

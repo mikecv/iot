@@ -5,8 +5,10 @@ import grpc
 import iot_pb2 as iot__pb2
 
 
-class MachineControlStub(object):
-    """Machine control service
+class MachineMessagesStub(object):
+    """*****************************************
+    Machine message service
+    *****************************************
     """
 
     def __init__(self, channel):
@@ -16,14 +18,16 @@ class MachineControlStub(object):
             channel: A grpc.Channel.
         """
         self.RegisterMachine = channel.unary_unary(
-                '/iot.MachineControl/RegisterMachine',
+                '/iot.MachineMessages/RegisterMachine',
                 request_serializer=iot__pb2.RegisterCmd.SerializeToString,
                 response_deserializer=iot__pb2.RegisterResp.FromString,
                 )
 
 
-class MachineControlServicer(object):
-    """Machine control service
+class MachineMessagesServicer(object):
+    """*****************************************
+    Machine message service
+    *****************************************
     """
 
     def RegisterMachine(self, request, context):
@@ -33,7 +37,7 @@ class MachineControlServicer(object):
         raise NotImplementedError('Method not implemented!')
 
 
-def add_MachineControlServicer_to_server(servicer, server):
+def add_MachineMessagesServicer_to_server(servicer, server):
     rpc_method_handlers = {
             'RegisterMachine': grpc.unary_unary_rpc_method_handler(
                     servicer.RegisterMachine,
@@ -42,13 +46,15 @@ def add_MachineControlServicer_to_server(servicer, server):
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
-            'iot.MachineControl', rpc_method_handlers)
+            'iot.MachineMessages', rpc_method_handlers)
     server.add_generic_rpc_handlers((generic_handler,))
 
 
  # This class is part of an EXPERIMENTAL API.
-class MachineControl(object):
-    """Machine control service
+class MachineMessages(object):
+    """*****************************************
+    Machine message service
+    *****************************************
     """
 
     @staticmethod
@@ -62,8 +68,78 @@ class MachineControl(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/iot.MachineControl/RegisterMachine',
+        return grpc.experimental.unary_unary(request, target, '/iot.MachineMessages/RegisterMachine',
             iot__pb2.RegisterCmd.SerializeToString,
             iot__pb2.RegisterResp.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+
+class ControllerMessagesStub(object):
+    """*****************************************
+    Controller message service
+    *****************************************
+    """
+
+    def __init__(self, channel):
+        """Constructor.
+
+        Args:
+            channel: A grpc.Channel.
+        """
+        self.KickWatchdog = channel.unary_unary(
+                '/iot.ControllerMessages/KickWatchdog',
+                request_serializer=iot__pb2.WatchdogCmd.SerializeToString,
+                response_deserializer=iot__pb2.WatchdogResp.FromString,
+                )
+
+
+class ControllerMessagesServicer(object):
+    """*****************************************
+    Controller message service
+    *****************************************
+    """
+
+    def KickWatchdog(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+
+def add_ControllerMessagesServicer_to_server(servicer, server):
+    rpc_method_handlers = {
+            'KickWatchdog': grpc.unary_unary_rpc_method_handler(
+                    servicer.KickWatchdog,
+                    request_deserializer=iot__pb2.WatchdogCmd.FromString,
+                    response_serializer=iot__pb2.WatchdogResp.SerializeToString,
+            ),
+    }
+    generic_handler = grpc.method_handlers_generic_handler(
+            'iot.ControllerMessages', rpc_method_handlers)
+    server.add_generic_rpc_handlers((generic_handler,))
+
+
+ # This class is part of an EXPERIMENTAL API.
+class ControllerMessages(object):
+    """*****************************************
+    Controller message service
+    *****************************************
+    """
+
+    @staticmethod
+    def KickWatchdog(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/iot.ControllerMessages/KickWatchdog',
+            iot__pb2.WatchdogCmd.SerializeToString,
+            iot__pb2.WatchdogResp.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
