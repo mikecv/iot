@@ -24,8 +24,9 @@ class Config():
         # Version of configuration.
         self.ConfigVersion = 1
 
-        # Custom controller name.
+        # Custom controller details.
         self.ControllerName = "Controller"
+        self.IPaddress = "127.0.0.1"
 
         # Logger configuration values.
         self.DebugLevel = 10
@@ -69,6 +70,12 @@ class Config():
                     self.ControllerName = config["ControllerName"]
                 except Exception:
                     self.ControllerName = paramSaved
+                    updateConfig = True
+                try:
+                    paramSaved = self.IPaddress
+                    self.IPaddress = config["IPaddress"]
+                except Exception:
+                    self.IPaddress = paramSaved
                     updateConfig = True
                 try:
                     paramSaved = self.DebugLevel
@@ -122,6 +129,7 @@ class Config():
         cfgDict = {
             "ConfigVersion" : self.ConfigVersion,
             "ControllerName" : self.ControllerName,
+            "IPaddress" : self.IPaddress,
             "DebugLevel" : self.DebugLevel,
             "LogFileSize" : self.LogFileSize,
             "LogBackups" : self.LogBackups,

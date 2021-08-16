@@ -20,7 +20,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\tiot.proto\x12\x03iot\"+\n\x0bRegisterCmd\x12\x1c\n\x03\x63md\x18\x01 \x01(\x0e\x32\x0f.iot.MachineCmd\"?\n\x0cRegisterResp\x12\"\n\x06status\x18\x01 \x01(\x0e\x32\x12.iot.MachineStatus\x12\x0b\n\x03uID\x18\x02 \x01(\r\".\n\x0bWatchdogCmd\x12\x1f\n\x03\x63md\x18\x01 \x01(\x0e\x32\x12.iot.ControllerCmd\"5\n\x0cWatchdogResp\x12%\n\x06status\x18\x01 \x01(\x0e\x32\x15.iot.ControllerStatus**\n\nMachineCmd\x12\x0c\n\x08M_UNUSED\x10\x00\x12\x0e\n\nM_REGISTER\x10\x01*+\n\rMachineStatus\x12\r\n\tMS_UNUSED\x10\x00\x12\x0b\n\x07MS_GOOD\x10\x01*-\n\rControllerCmd\x12\x0c\n\x08\x43_UNUSED\x10\x00\x12\x0e\n\nC_WATCHDOG\x10\x01*.\n\x10\x43ontrollerStatus\x12\r\n\tCS_UNUSED\x10\x00\x12\x0b\n\x07\x43S_GOOD\x10\x01\x32K\n\x0fMachineMessages\x12\x38\n\x0fRegisterMachine\x12\x10.iot.RegisterCmd\x1a\x11.iot.RegisterResp\"\x00\x32K\n\x12\x43ontrollerMessages\x12\x35\n\x0cKickWatchdog\x12\x10.iot.WatchdogCmd\x1a\x11.iot.WatchdogResp\"\x00\x62\x06proto3'
+  serialized_pb=b'\n\tiot.proto\x12\x03iot\">\n\x0bRegisterCmd\x12\x1c\n\x03\x63md\x18\x01 \x01(\x0e\x32\x0f.iot.MachineCmd\x12\x11\n\tmachineIP\x18\x02 \x01(\t\"?\n\x0cRegisterResp\x12\"\n\x06status\x18\x01 \x01(\x0e\x32\x12.iot.MachineStatus\x12\x0b\n\x03uID\x18\x02 \x01(\r\".\n\x0bWatchdogCmd\x12\x1f\n\x03\x63md\x18\x01 \x01(\x0e\x32\x12.iot.ControllerCmd\"3\n\x0cWatchdogResp\x12#\n\x06status\x18\x01 \x01(\x0e\x32\x13.iot.ControllerResp*(\n\nMachineCmd\x12\n\n\x06M_NONE\x10\x00\x12\x0e\n\nM_REGISTER\x10\x01*)\n\rMachineStatus\x12\x0b\n\x07MS_NONE\x10\x00\x12\x0b\n\x07MS_GOOD\x10\x01*+\n\rControllerCmd\x12\n\n\x06\x43_NONE\x10\x00\x12\x0e\n\nC_WATCHDOG\x10\x01**\n\x0e\x43ontrollerResp\x12\x0b\n\x07\x43S_NONE\x10\x00\x12\x0b\n\x07\x43S_GOOD\x10\x01\x32K\n\x0fMachineMessages\x12\x38\n\x0fRegisterMachine\x12\x10.iot.RegisterCmd\x1a\x11.iot.RegisterResp\"\x00\x32K\n\x12\x43ontrollerMessages\x12\x35\n\x0cKickWatchdog\x12\x10.iot.WatchdogCmd\x1a\x11.iot.WatchdogResp\"\x00\x62\x06proto3'
 )
 
 _MACHINECMD = _descriptor.EnumDescriptor(
@@ -31,7 +31,7 @@ _MACHINECMD = _descriptor.EnumDescriptor(
   create_key=_descriptor._internal_create_key,
   values=[
     _descriptor.EnumValueDescriptor(
-      name='M_UNUSED', index=0, number=0,
+      name='M_NONE', index=0, number=0,
       serialized_options=None,
       type=None,
       create_key=_descriptor._internal_create_key),
@@ -43,8 +43,8 @@ _MACHINECMD = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=231,
-  serialized_end=273,
+  serialized_start=248,
+  serialized_end=288,
 )
 _sym_db.RegisterEnumDescriptor(_MACHINECMD)
 
@@ -57,7 +57,7 @@ _MACHINESTATUS = _descriptor.EnumDescriptor(
   create_key=_descriptor._internal_create_key,
   values=[
     _descriptor.EnumValueDescriptor(
-      name='MS_UNUSED', index=0, number=0,
+      name='MS_NONE', index=0, number=0,
       serialized_options=None,
       type=None,
       create_key=_descriptor._internal_create_key),
@@ -69,8 +69,8 @@ _MACHINESTATUS = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=275,
-  serialized_end=318,
+  serialized_start=290,
+  serialized_end=331,
 )
 _sym_db.RegisterEnumDescriptor(_MACHINESTATUS)
 
@@ -83,7 +83,7 @@ _CONTROLLERCMD = _descriptor.EnumDescriptor(
   create_key=_descriptor._internal_create_key,
   values=[
     _descriptor.EnumValueDescriptor(
-      name='C_UNUSED', index=0, number=0,
+      name='C_NONE', index=0, number=0,
       serialized_options=None,
       type=None,
       create_key=_descriptor._internal_create_key),
@@ -95,21 +95,21 @@ _CONTROLLERCMD = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=320,
-  serialized_end=365,
+  serialized_start=333,
+  serialized_end=376,
 )
 _sym_db.RegisterEnumDescriptor(_CONTROLLERCMD)
 
 ControllerCmd = enum_type_wrapper.EnumTypeWrapper(_CONTROLLERCMD)
-_CONTROLLERSTATUS = _descriptor.EnumDescriptor(
-  name='ControllerStatus',
-  full_name='iot.ControllerStatus',
+_CONTROLLERRESP = _descriptor.EnumDescriptor(
+  name='ControllerResp',
+  full_name='iot.ControllerResp',
   filename=None,
   file=DESCRIPTOR,
   create_key=_descriptor._internal_create_key,
   values=[
     _descriptor.EnumValueDescriptor(
-      name='CS_UNUSED', index=0, number=0,
+      name='CS_NONE', index=0, number=0,
       serialized_options=None,
       type=None,
       create_key=_descriptor._internal_create_key),
@@ -121,19 +121,19 @@ _CONTROLLERSTATUS = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=367,
-  serialized_end=413,
+  serialized_start=378,
+  serialized_end=420,
 )
-_sym_db.RegisterEnumDescriptor(_CONTROLLERSTATUS)
+_sym_db.RegisterEnumDescriptor(_CONTROLLERRESP)
 
-ControllerStatus = enum_type_wrapper.EnumTypeWrapper(_CONTROLLERSTATUS)
-M_UNUSED = 0
+ControllerResp = enum_type_wrapper.EnumTypeWrapper(_CONTROLLERRESP)
+M_NONE = 0
 M_REGISTER = 1
-MS_UNUSED = 0
+MS_NONE = 0
 MS_GOOD = 1
-C_UNUSED = 0
+C_NONE = 0
 C_WATCHDOG = 1
-CS_UNUSED = 0
+CS_NONE = 0
 CS_GOOD = 1
 
 
@@ -153,6 +153,13 @@ _REGISTERCMD = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='machineIP', full_name='iot.RegisterCmd.machineIP', index=1,
+      number=2, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
   ],
   extensions=[
   ],
@@ -166,7 +173,7 @@ _REGISTERCMD = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=18,
-  serialized_end=61,
+  serialized_end=80,
 )
 
 
@@ -204,8 +211,8 @@ _REGISTERRESP = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=63,
-  serialized_end=126,
+  serialized_start=82,
+  serialized_end=145,
 )
 
 
@@ -236,8 +243,8 @@ _WATCHDOGCMD = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=128,
-  serialized_end=174,
+  serialized_start=147,
+  serialized_end=193,
 )
 
 
@@ -268,14 +275,14 @@ _WATCHDOGRESP = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=176,
-  serialized_end=229,
+  serialized_start=195,
+  serialized_end=246,
 )
 
 _REGISTERCMD.fields_by_name['cmd'].enum_type = _MACHINECMD
 _REGISTERRESP.fields_by_name['status'].enum_type = _MACHINESTATUS
 _WATCHDOGCMD.fields_by_name['cmd'].enum_type = _CONTROLLERCMD
-_WATCHDOGRESP.fields_by_name['status'].enum_type = _CONTROLLERSTATUS
+_WATCHDOGRESP.fields_by_name['status'].enum_type = _CONTROLLERRESP
 DESCRIPTOR.message_types_by_name['RegisterCmd'] = _REGISTERCMD
 DESCRIPTOR.message_types_by_name['RegisterResp'] = _REGISTERRESP
 DESCRIPTOR.message_types_by_name['WatchdogCmd'] = _WATCHDOGCMD
@@ -283,7 +290,7 @@ DESCRIPTOR.message_types_by_name['WatchdogResp'] = _WATCHDOGRESP
 DESCRIPTOR.enum_types_by_name['MachineCmd'] = _MACHINECMD
 DESCRIPTOR.enum_types_by_name['MachineStatus'] = _MACHINESTATUS
 DESCRIPTOR.enum_types_by_name['ControllerCmd'] = _CONTROLLERCMD
-DESCRIPTOR.enum_types_by_name['ControllerStatus'] = _CONTROLLERSTATUS
+DESCRIPTOR.enum_types_by_name['ControllerResp'] = _CONTROLLERRESP
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 RegisterCmd = _reflection.GeneratedProtocolMessageType('RegisterCmd', (_message.Message,), {
@@ -323,8 +330,8 @@ _MACHINEMESSAGES = _descriptor.ServiceDescriptor(
   index=0,
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_start=415,
-  serialized_end=490,
+  serialized_start=422,
+  serialized_end=497,
   methods=[
   _descriptor.MethodDescriptor(
     name='RegisterMachine',
@@ -349,8 +356,8 @@ _CONTROLLERMESSAGES = _descriptor.ServiceDescriptor(
   index=1,
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_start=492,
-  serialized_end=567,
+  serialized_start=499,
+  serialized_end=574,
   methods=[
   _descriptor.MethodDescriptor(
     name='KickWatchdog',

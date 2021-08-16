@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package iot;
 
+
 // *****************************************
 // Machine message service
 // *****************************************
@@ -11,26 +12,30 @@ service MachineMessages {
 
 // Machine commands
 enum MachineCmd {
-  M_UNUSED = 0;
+  M_NONE = 0;
   M_REGISTER = 1;
 }
 
 // Machine command response status
 enum MachineStatus {
-  MS_UNUSED = 0;
+  MS_NONE = 0;
   MS_GOOD = 1;
 }
+
 
 // Register machine COMMAND message.
 message RegisterCmd {
   MachineCmd cmd = 1;
+  string machineIP = 2;
 }
+
 
 // Register machine RESPONSE message.
 message RegisterResp {
   MachineStatus status = 1;
   uint32 uID = 2;
 }
+
 
 // *****************************************
 // Controller message service
@@ -41,22 +46,24 @@ service ControllerMessages {
 
 // Controller commands
 enum ControllerCmd {
-  C_UNUSED = 0;
+  C_NONE = 0;
   C_WATCHDOG = 1;
 }
 
 // Controller command response status
-enum ControllerStatus {
-  CS_UNUSED = 0;
+enum ControllerResp {
+  CS_NONE = 0;
   CS_GOOD = 1;
 }
+
 
 // Kick watchdog COMMAND message.
 message WatchdogCmd {
   ControllerCmd cmd = 1;
 }
 
+
 // Kick watchdog RESPONSE message.
 message WatchdogResp {
-  ControllerStatus status = 1;
+  ControllerResp status = 1;
 }

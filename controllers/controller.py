@@ -2,11 +2,13 @@
 
 from concurrent import futures
 from threading import Thread
+import time
 import grpc
 import iot_pb2_grpc as iot_pb2_grpc
 
 from constants import *
 from machineController import *
+from machineData import *
 
 
 class Controller(Thread):   
@@ -47,16 +49,15 @@ class Controller(Thread):
         self.nextUID += 1
         return uid
 
-    def regNewMachine(self, newUID):
+    def regNewMachine(self, newUID, machineIP):
         """
         Register a new machine with the following UID.
-        Creates a registered machine object.
-        <MDC> FOR NOW JUST ADD THE NEW UID TO THE LIST.
+        Creates a registered machine data object.
         """
 
         print(f"Registered new machine with UID : {newUID}")
-        self.log.debug(f"Registered new machine with UID : {newUID}")
-        self.regMachines.append(newUID)
+        self.log.debug(f"Registered new machine with UID : {newUID}; from IP : {machineIP}")
+        self.regMachines.append(MachineData(newUID, machineIP))
 
     def run(self):
         """
@@ -106,7 +107,14 @@ class Controller(Thread):
         Performing controlling functions.
         """
 
-        self.log.info("Performaing controller processing.")
+        self.log.info("Performing controller processing.")
 
         while True:
-            pass
+            for m in self.regMachines:
+                print(f"Processing machine UID : {m.uid}")
+
+                self.log.debug("Kicking machine watchdog...")
+                # channel = grpc.insecure_channel(f'{self.cfg.GRPC["ServerIP"]}:{self.cfg.GRPC["ServerPort"]}')
+                # stub = iot_pb2_grpc.MachineMessagesStub(channel)
+
+                time.sleep(1)

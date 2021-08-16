@@ -24,8 +24,9 @@ class Config():
         # Version of configuration.
         self.ConfigVersion = 1
 
-        # Custom machine name.
+        # Custom machine details.
         self.MachineName = "Machine"
+        self.IPaddress = "127.0.0.1"
 
         # Logger configuration values
         self.DebugLevel = 10
@@ -73,6 +74,12 @@ class Config():
                     self.MachineName = config["MachineName"]
                 except Exception:
                     self.MachineName = paramSaved
+                    updateConfig = True
+                try:
+                    paramSaved = self.IPaddress
+                    self.IPaddress = config["IPaddress"]
+                except Exception:
+                    self.IPaddress = paramSaved
                     updateConfig = True
                 try:
                     paramSaved = self.DebugLevel
@@ -144,6 +151,7 @@ class Config():
         cfgDict = {
             "ConfigVersion" : self.ConfigVersion,
             "MachineName" : self.MachineName,
+            "IPaddress" : self.IPaddress,
             "DebugLevel" : self.DebugLevel,
             "LogFileSize" : self.LogFileSize,
             "LogBackups" : self.LogBackups,

@@ -87,7 +87,11 @@ class Machine(Thread):
                 self.log.info(f"Attempting to register machine with controller; try : {regTries+1}")
                 print(f"Attempting to register machine with controller; try : {regTries+1}")
 
-                response = stub.RegisterMachine(iot_pb2.RegisterCmd(cmd=iot_pb2.MachineCmd.M_REGISTER))
+                # Construct command message object and send.
+                cmd = iot_pb2.RegisterCmd()
+                cmd.cmd = iot_pb2.MachineCmd.M_REGISTER
+                cmd.machineIP = self.cfg.IPaddress
+                response = stub.RegisterMachine(cmd)
 
                 self.log.debug(f"Registration response received, status : {response.status}; uID : {response.uID}")
                 print(f"Registration response received, status : {response.status}; uID : {response.uID}")
@@ -101,7 +105,7 @@ class Machine(Thread):
                 # Failed to receive response from server.
                 self.log.debug(f"GRPC error, code : {rpc_error.code()}; message : {rpc_error.details()}")
 
-            # Didn't register then qait a bit and then gp back and retry registration, else break.
+            # Didn't register then wait a bit and then go back and retry registration, else break.
             if (registered == False) and (regTries < (self.cfg.GRPC["RegRetries"]-1)):
                 time.sleep(self.cfg.GRPC["RegDelay"])
             else:

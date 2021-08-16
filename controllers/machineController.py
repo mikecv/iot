@@ -16,7 +16,12 @@ class MachineController(iot_pb2_grpc.MachineMessages):
         if request.cmd == iot_pb2.MachineCmd.M_REGISTER:
             # Create a new registered machine for the controller.
             newUID = self.ctrl.issueUID()
-            self.ctrl.regNewMachine(newUID)
+            clientIP = request.machineIP
+            self.ctrl.regNewMachine(newUID, clientIP)
 
             # Respond to the machine that it is registered.
-            return iot_pb2.RegisterResp(status=iot_pb2.MachineStatus.MS_GOOD, uID=newUID)
+            resp = iot_pb2.RegisterResp()
+            resp.status = iot_pb2.MachineStatus.MS_GOOD
+            resp.uID = newUID
+
+            return resp

@@ -1,0 +1,12 @@
+// Install grpc proto tools (system wide).
+$ sudo python3 -m pip install grpcio
+
+// Compiling proto file.
+// iot/protos/iot.proto
+
+// from the controllers folder
+iot/controllers $ python3 -m grpc_tools.protoc -I../protos --python_out=. --grpc_python_out=. ../protos/iot.proto
+
+// This generates files:
+// iot/controllers/iot_pb2.py
+// iot/controllers/iot_pb2_grpc.py
