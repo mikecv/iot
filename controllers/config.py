@@ -43,6 +43,11 @@ class Config():
             "ListenPort" : 50051
         }
 
+        # Machine control settings.
+        self.MCtrl = {
+            "LoopTime" : 1
+        }
+
         # Read / update configuration from file.
         self.readConfig()
 
@@ -107,6 +112,12 @@ class Config():
                 except Exception:
                     self.GRPC["ListenPort"] = paramSaved
                     updateConfig = True
+                try:
+                    paramSaved = self.MCtrl["LoopTime"]
+                    self.MCtrl["LoopTime"] = config["MCtrl"]["LoopTime"]
+                except Exception:
+                    self.MCtrl["LoopTime"] = paramSaved
+                    updateConfig = True
 
                 # If required, i.e. couldn't update all data from user configuration, then save default.
                 if updateConfig:
@@ -134,7 +145,8 @@ class Config():
             "LogFileSize" : self.LogFileSize,
             "LogBackups" : self.LogBackups,
             "Timers" : self.Timers,
-            "GRPC" : self.GRPC
+            "GRPC" : self.GRPC,
+            "MCtrl" : self.MCtrl
         }
 
         # Open file for writing.

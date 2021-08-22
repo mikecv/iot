@@ -1,6 +1,6 @@
 {
     "ConfigVersion": 1,
-    "ControllerName": "Master",
+    "ControllerName": "Technics",
     "IPaddress": "127.0.0.1",
     "DebugLevel": 10,
     "LogFileSize": 100000,
@@ -10,5 +10,8 @@
     },
     "GRPC": {
         "ListenPort": 50051
+    },
+    "MCtrl": {
+        "LoopTime": 1
     }
 }

@@ -57,7 +57,7 @@ class Controller(Thread):
 
         print(f"Registered new machine with UID : {newUID}")
         self.log.debug(f"Registered new machine with UID : {newUID}; from IP : {machineIP}")
-        self.regMachines.append(MachineData(newUID, machineIP))
+        self.regMachines.append(MachineData(self.cfg, self.log, newUID, machineIP))
 
     def run(self):
         """
@@ -107,14 +107,12 @@ class Controller(Thread):
         Performing controlling functions.
         """
 
-        self.log.info("Performing controller processing.")
+        self.log.info("Performing controller processing...")
 
         while True:
             for m in self.regMachines:
-                print(f"Processing machine UID : {m.uid}")
+                self.log.debug(f"Processing machine UID : {m.uid}")
 
-                self.log.debug("Kicking machine watchdog...")
-                # channel = grpc.insecure_channel(f'{self.cfg.GRPC["ServerIP"]}:{self.cfg.GRPC["ServerPort"]}')
-                # stub = iot_pb2_grpc.MachineMessagesStub(channel)
+                # TODO
 
                 time.sleep(1)

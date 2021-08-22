@@ -20,7 +20,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\tiot.proto\x12\x03iot\">\n\x0bRegisterCmd\x12\x1c\n\x03\x63md\x18\x01 \x01(\x0e\x32\x0f.iot.MachineCmd\x12\x11\n\tmachineIP\x18\x02 \x01(\t\"?\n\x0cRegisterResp\x12\"\n\x06status\x18\x01 \x01(\x0e\x32\x12.iot.MachineStatus\x12\x0b\n\x03uID\x18\x02 \x01(\r\".\n\x0bWatchdogCmd\x12\x1f\n\x03\x63md\x18\x01 \x01(\x0e\x32\x12.iot.ControllerCmd\"3\n\x0cWatchdogResp\x12#\n\x06status\x18\x01 \x01(\x0e\x32\x13.iot.ControllerResp*(\n\nMachineCmd\x12\n\n\x06M_NONE\x10\x00\x12\x0e\n\nM_REGISTER\x10\x01*)\n\rMachineStatus\x12\x0b\n\x07MS_NONE\x10\x00\x12\x0b\n\x07MS_GOOD\x10\x01*+\n\rControllerCmd\x12\n\n\x06\x43_NONE\x10\x00\x12\x0e\n\nC_WATCHDOG\x10\x01**\n\x0e\x43ontrollerResp\x12\x0b\n\x07\x43S_NONE\x10\x00\x12\x0b\n\x07\x43S_GOOD\x10\x01\x32K\n\x0fMachineMessages\x12\x38\n\x0fRegisterMachine\x12\x10.iot.RegisterCmd\x1a\x11.iot.RegisterResp\"\x00\x32K\n\x12\x43ontrollerMessages\x12\x35\n\x0cKickWatchdog\x12\x10.iot.WatchdogCmd\x1a\x11.iot.WatchdogResp\"\x00\x62\x06proto3'
+  serialized_pb=b'\n\tiot.proto\x12\x03iot\">\n\x0bRegisterCmd\x12\x1c\n\x03\x63md\x18\x01 \x01(\x0e\x32\x0f.iot.MachineCmd\x12\x11\n\tmachineIP\x18\x02 \x01(\t\"?\n\x0cRegisterResp\x12\"\n\x06status\x18\x01 \x01(\x0e\x32\x12.iot.MachineStatus\x12\x0b\n\x03uID\x18\x02 \x01(\r\".\n\x0bWatchdogCmd\x12\x1f\n\x03\x63md\x18\x01 \x01(\x0e\x32\x12.iot.ControllerCmd\"3\n\x0cWatchdogResp\x12#\n\x06status\x18\x01 \x01(\x0e\x32\x13.iot.ControllerResp*(\n\nMachineCmd\x12\n\n\x06M_NONE\x10\x00\x12\x0e\n\nM_REGISTER\x10\x02*Y\n\rMachineStatus\x12\x0b\n\x07MS_NONE\x10\x00\x12\x0b\n\x07MS_GOOD\x10\x01\x12\x15\n\x11MS_UNEXPECTED_CMD\x10\x62\x12\x17\n\x13MS_SERVER_EXCEPTION\x10\x63*+\n\rControllerCmd\x12\n\n\x06\x43_NONE\x10\x00\x12\x0e\n\nC_WATCHDOG\x10\x01**\n\x0e\x43ontrollerResp\x12\x0b\n\x07\x43S_NONE\x10\x00\x12\x0b\n\x07\x43S_GOOD\x10\x01\x32K\n\x0fMachineMessages\x12\x38\n\x0fRegisterMachine\x12\x10.iot.RegisterCmd\x1a\x11.iot.RegisterResp\"\x00\x32K\n\x12\x43ontrollerMessages\x12\x35\n\x0cKickWatchdog\x12\x10.iot.WatchdogCmd\x1a\x11.iot.WatchdogResp\"\x00\x62\x06proto3'
 )
 
 _MACHINECMD = _descriptor.EnumDescriptor(
@@ -36,7 +36,7 @@ _MACHINECMD = _descriptor.EnumDescriptor(
       type=None,
       create_key=_descriptor._internal_create_key),
     _descriptor.EnumValueDescriptor(
-      name='M_REGISTER', index=1, number=1,
+      name='M_REGISTER', index=1, number=2,
       serialized_options=None,
       type=None,
       create_key=_descriptor._internal_create_key),
@@ -66,11 +66,21 @@ _MACHINESTATUS = _descriptor.EnumDescriptor(
       serialized_options=None,
       type=None,
       create_key=_descriptor._internal_create_key),
+    _descriptor.EnumValueDescriptor(
+      name='MS_UNEXPECTED_CMD', index=2, number=98,
+      serialized_options=None,
+      type=None,
+      create_key=_descriptor._internal_create_key),
+    _descriptor.EnumValueDescriptor(
+      name='MS_SERVER_EXCEPTION', index=3, number=99,
+      serialized_options=None,
+      type=None,
+      create_key=_descriptor._internal_create_key),
   ],
   containing_type=None,
   serialized_options=None,
   serialized_start=290,
-  serialized_end=331,
+  serialized_end=379,
 )
 _sym_db.RegisterEnumDescriptor(_MACHINESTATUS)
 
@@ -95,8 +105,8 @@ _CONTROLLERCMD = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=333,
-  serialized_end=376,
+  serialized_start=381,
+  serialized_end=424,
 )
 _sym_db.RegisterEnumDescriptor(_CONTROLLERCMD)
 
@@ -121,16 +131,18 @@ _CONTROLLERRESP = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=378,
-  serialized_end=420,
+  serialized_start=426,
+  serialized_end=468,
 )
 _sym_db.RegisterEnumDescriptor(_CONTROLLERRESP)
 
 ControllerResp = enum_type_wrapper.EnumTypeWrapper(_CONTROLLERRESP)
 M_NONE = 0
-M_REGISTER = 1
+M_REGISTER = 2
 MS_NONE = 0
 MS_GOOD = 1
+MS_UNEXPECTED_CMD = 98
+MS_SERVER_EXCEPTION = 99
 C_NONE = 0
 C_WATCHDOG = 1
 CS_NONE = 0
@@ -330,8 +342,8 @@ _MACHINEMESSAGES = _descriptor.ServiceDescriptor(
   index=0,
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_start=422,
-  serialized_end=497,
+  serialized_start=470,
+  serialized_end=545,
   methods=[
   _descriptor.MethodDescriptor(
     name='RegisterMachine',
@@ -356,8 +368,8 @@ _CONTROLLERMESSAGES = _descriptor.ServiceDescriptor(
   index=1,
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_start=499,
-  serialized_end=574,
+  serialized_start=547,
+  serialized_end=622,
   methods=[
   _descriptor.MethodDescriptor(
     name='KickWatchdog',

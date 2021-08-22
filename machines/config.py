@@ -101,7 +101,7 @@ class Config():
                     updateConfig = True
                 try:
                     paramSaved = self.Timers["MainSleep"]
-                    self.Timers["PicCodedBgCol"] = config["Timers"]["MainSleep"]
+                    self.Timers["MainSleep"] = config["Timers"]["MainSleep"]
                 except Exception:
                     self.Timers["MainSleep"] = paramSaved
                     updateConfig = True

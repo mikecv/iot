@@ -88,10 +88,10 @@ class Machine(Thread):
                 print(f"Attempting to register machine with controller; try : {regTries+1}")
 
                 # Construct command message object and send.
-                cmd = iot_pb2.RegisterCmd()
-                cmd.cmd = iot_pb2.MachineCmd.M_REGISTER
-                cmd.machineIP = self.cfg.IPaddress
-                response = stub.RegisterMachine(cmd)
+                regCmd = iot_pb2.RegisterCmd()
+                regCmd.cmd = iot_pb2.MachineCmd.M_REGISTER
+                regCmd.machineIP = self.cfg.IPaddress
+                response = stub.RegisterMachine(regCmd)
 
                 self.log.debug(f"Registration response received, status : {response.status}; uID : {response.uID}")
                 print(f"Registration response received, status : {response.status}; uID : {response.uID}")
@@ -101,9 +101,9 @@ class Machine(Thread):
                     registered = True
                 else:
                     regTries += 1
-            except grpc.RpcError as rpc_error:
+            except Exception as e:
                 # Failed to receive response from server.
-                self.log.debug(f"GRPC error, code : {rpc_error.code()}; message : {rpc_error.details()}")
+                self.log.debug(f"GRPC error : {e}")
 
             # Didn't register then wait a bit and then go back and retry registration, else break.
             if (registered == False) and (regTries < (self.cfg.GRPC["RegRetries"]-1)):
@@ -111,15 +111,15 @@ class Machine(Thread):
             else:
                 break
 
-        # If machine was not registered after configurable reties then terminate.
+        # If machine was not registered after configurable retries then terminate.
         if registered == False:
             self.state = MachineState.TERMINATING
 
     def process(self):
         """
-        Controller is active and registered, so process.
+        Machine is active and registered, so process.
         """
 
-        self.log.info("Machine registered and processing.")
+        self.log.info("Machine registered and processing...")
         while True:
             pass
