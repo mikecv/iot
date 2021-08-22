@@ -62,7 +62,7 @@ class Machine(Thread):
         Initialise class variables and state.
         """
 
-        self.log.info("Initialising machine.")
+        self.log.info("Initialising machine...")
 
         # Initialise stay alive flag.
         self.stayAlive = True
@@ -75,7 +75,7 @@ class Machine(Thread):
         Register the machine with the controller.
         """
 
-        self.log.info("Registering machine with controller.")
+        self.log.info("Registering machine with controller...")
 
         channel = grpc.insecure_channel(f'{self.cfg.GRPC["ServerIP"]}:{self.cfg.GRPC["ServerPort"]}')
         stub = iot_pb2_grpc.MachineMessagesStub(channel)
@@ -101,9 +101,9 @@ class Machine(Thread):
                     registered = True
                 else:
                     regTries += 1
-            except Exception as e:
+            except grpc.RpcError as e:
                 # Failed to receive response from server.
-                self.log.debug(f"GRPC error : {e}")
+                self.log.debug(f"GRPC error, status : {e.code()}; details : {e.details()}")
 
             # Didn't register then wait a bit and then go back and retry registration, else break.
             if (registered == False) and (regTries < (self.cfg.GRPC["RegRetries"]-1)):

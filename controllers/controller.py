@@ -93,7 +93,7 @@ class Controller(Thread):
         Initialise class variables and state.
         """
 
-        self.log.info("Initialising controller.")
+        self.log.info("Initialising controller...")
 
         # Initialise stay alive flag.
         self.stayAlive = True

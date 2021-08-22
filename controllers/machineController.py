@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import grpc
 import iot_pb2 as iot_pb2
 import iot_pb2_grpc as iot_pb2_grpc
 
@@ -22,10 +23,10 @@ class MachineController(iot_pb2_grpc.MachineMessages):
 
                 # Respond to the machine that it is registered.
                 return iot_pb2.RegisterResp(status = iot_pb2.MachineStatus.MS_GOOD, uID = newUID)
-            except Exception as e:
+            except grpc.RpcError as e:
                 # Server-side GRPC error.
                 context.set_code(iot_pb2.MachineStatus.MS_SERVER_EXCEPTION)
-                context.set_details(f"Server exception : {e}")
+                context.set_details(f"Server exception, status : {e.code()}; details : {e.details()}")
                 return iot_pb2.iot_pb2.RegisterResp()
         else:
             # Unexpected command in register machine request.
