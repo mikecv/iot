@@ -2,6 +2,7 @@
     "ConfigVersion": 1,
     "MachineName": "LV357",
     "IPaddress": "127.0.0.1",
+    "IPport": 50051,
     "DebugLevel": 10,
     "LogFileSize": 100000,
     "LogBackups": 3,

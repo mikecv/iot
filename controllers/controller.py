@@ -49,15 +49,20 @@ class Controller(Thread):
         self.nextUID += 1
         return uid
 
-    def regNewMachine(self, newUID, machineIP):
+    def regNewMachine(self, newUID, machineName, machineIP, machinePort):
         """
         Register a new machine with the following UID.
         Creates a registered machine data object.
         """
 
-        print(f"Registered new machine with UID : {newUID}")
-        self.log.debug(f"Registered new machine with UID : {newUID}; from IP : {machineIP}")
-        self.regMachines.append(MachineData(self.cfg, self.log, newUID, machineIP))
+        print(f"Registered new machine with UID : {newUID}; name : {machineName}; address : {machineIP}; port : {machinePort}")
+        self.log.debug(f"Registered new machine with UID : {newUID}; name : {machineName}; address : {machineIP}; port : {machinePort}")
+
+        # Create a machine data object for the machine.
+        # Add the machine data object to list of machines.
+        md = MachineData(self.cfg, self.log, newUID, machineName, machineIP, machinePort)
+        md.start()
+        self.regMachines.append(md)
 
     def run(self):
         """
@@ -100,7 +105,6 @@ class Controller(Thread):
 
         # Transition to the active state.
         self.state = ControllerState.ACTIVE
-
 
     def controlling(self):
         """

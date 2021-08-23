@@ -27,6 +27,7 @@ class Config():
         # Custom machine details.
         self.MachineName = "Machine"
         self.IPaddress = "127.0.0.1"
+        self.IPport = 50051
 
         # Logger configuration values
         self.DebugLevel = 10
@@ -80,6 +81,12 @@ class Config():
                     self.IPaddress = config["IPaddress"]
                 except Exception:
                     self.IPaddress = paramSaved
+                    updateConfig = True
+                try:
+                    paramSaved = self.IPport
+                    self.IPport = config["IPport"]
+                except Exception:
+                    self.IPport = paramSaved
                     updateConfig = True
                 try:
                     paramSaved = self.DebugLevel
@@ -152,6 +159,7 @@ class Config():
             "ConfigVersion" : self.ConfigVersion,
             "MachineName" : self.MachineName,
             "IPaddress" : self.IPaddress,
+            "IPport" : self.IPport,
             "DebugLevel" : self.DebugLevel,
             "LogFileSize" : self.LogFileSize,
             "LogBackups" : self.LogBackups,

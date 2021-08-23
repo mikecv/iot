@@ -18,8 +18,10 @@ class MachineController(iot_pb2_grpc.MachineMessages):
             try:
                 # Create a new registered machine for the controller.
                 newUID = self.ctrl.issueUID()
+                clientName = request.machineName
                 clientIP = request.machineIP
-                self.ctrl.regNewMachine(newUID, clientIP)
+                clientPort = request.machinePort
+                self.ctrl.regNewMachine(newUID, clientName, clientIP, clientPort)
 
                 # Respond to the machine that it is registered.
                 return iot_pb2.RegisterResp(status = iot_pb2.MachineStatus.MS_GOOD, uID = newUID)

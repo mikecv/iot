@@ -79,6 +79,14 @@ class Machine(Thread):
 
         channel = grpc.insecure_channel(f'{self.cfg.GRPC["ServerIP"]}:{self.cfg.GRPC["ServerPort"]}')
         stub = iot_pb2_grpc.MachineMessagesStub(channel)
+
+        # Construct command message object.
+        regCmd = iot_pb2.RegisterCmd()
+        regCmd.cmd = iot_pb2.MachineCmd.M_REGISTER
+        regCmd.machineName = self.cfg.MachineName
+        regCmd.machineIP = self.cfg.IPaddress
+        regCmd.machinePort = self.cfg.IPport
+
         regTries = 0
         registered = False
         for regTries in range(0, self.cfg.GRPC["RegRetries"]):
@@ -87,10 +95,7 @@ class Machine(Thread):
                 self.log.info(f"Attempting to register machine with controller; try : {regTries+1}")
                 print(f"Attempting to register machine with controller; try : {regTries+1}")
 
-                # Construct command message object and send.
-                regCmd = iot_pb2.RegisterCmd()
-                regCmd.cmd = iot_pb2.MachineCmd.M_REGISTER
-                regCmd.machineIP = self.cfg.IPaddress
+                # Send registration command to the server.
                 response = stub.RegisterMachine(regCmd)
 
                 self.log.debug(f"Registration response received, status : {response.status}; uID : {response.uID}")

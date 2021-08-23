@@ -28,7 +28,9 @@ enum MachineStatus {
 // Register machine COMMAND message.
 message RegisterCmd {
   MachineCmd cmd = 1;
-  string machineIP = 2;
+  string machineName = 2;
+  string machineIP = 3;
+  uint32 machinePort = 4;
 }
 
 
