@@ -12,11 +12,11 @@ class MachineData(Thread):
     and received from a registered machine.
     """
 
-    def __init__(self, config, log, uid, machineName, machineIP, machinePort):
+    def __init__(self, config, log, uuid, machineName, machineIP, machinePort):
         """
         Initialisation method.
         Parameters:
-            uid : UID of the new machine data object.
+            uuid : UUID of the new machine data object.
             machineIP : IP address of the machine.
             machinePort : Port number to kick.
             wdTime : Watchdog time interval.
@@ -27,13 +27,13 @@ class MachineData(Thread):
         self.log = log
 
         # Machine's UID and details.
-        self.uid = uid
+        self.uuid = uuid
         self.machineName = machineName
         self.machineIP = machineIP
         self.machinePort = machinePort
 
         # Start a watchdog for the machine.
-        self.watchdog = MachineWatchdog(machineIP, machinePort, 1)
+        self.watchdog = MachineWatchdog(self, 1)
         self.watchdog.start()
 
         # Initialise state of the machine.
@@ -48,6 +48,13 @@ class MachineData(Thread):
 
         while self.stayAlive:
 
-            print(f"Kicking watchdog for UID : {self.uid}; count : {self.watchdog.wdCount}")
-
             time.sleep(1)
+
+    def dieMachineDie(self):
+        """
+        Machine needs to be killed off.
+        This is most likely due to the machine not being responsive.
+        """
+
+        print(f"Killing off machine, UUID : {self.uuid}")
+        self.stayAlive = False

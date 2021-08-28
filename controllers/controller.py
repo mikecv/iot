@@ -7,7 +7,7 @@ import grpc
 import iot_pb2_grpc as iot_pb2_grpc
 
 from constants import *
-from machineController import *
+from machineCommands import *
 from machineData import *
 
 
@@ -39,30 +39,20 @@ class Controller(Thread):
         self.stayAlive = True
         self.state = ControllerState.STARTING
 
-    def issueUID(self) -> int:
-        """
-        Issue a UID to a new registering machine.
-        The UID is lost if registration fails or machine subsequently deregistered.
-        """
-
-        uid = self.nextUID
-        self.nextUID += 1
-        return uid
-
-    def regNewMachine(self, newUID, machineName, machineIP, machinePort):
+    def regNewMachine(self, newUUID, machineName, machineIP, machinePort):
         """
         Register a new machine with the following UID.
         Creates a registered machine data object.
         """
 
-        print(f"Registered new machine with UID : {newUID}; name : {machineName}; address : {machineIP}; port : {machinePort}")
-        self.log.debug(f"Registered new machine with UID : {newUID}; name : {machineName}; address : {machineIP}; port : {machinePort}")
+        print(f"Registered new machine with UID : {newUUID}; name : {machineName}; address : {machineIP}; port : {machinePort}")
+        self.log.debug(f"Registered new machine with UID : {newUUID}; name : {machineName}; address : {machineIP}; port : {machinePort}")
 
         # Create a machine data object for the machine.
         # Add the machine data object to list of machines.
-        md = MachineData(self.cfg, self.log, newUID, machineName, machineIP, machinePort)
-        md.start()
+        md = MachineData(self.cfg, self.log, newUUID, machineName, machineIP, machinePort)
         self.regMachines.append(md)
+        md.start()
 
     def run(self):
         """
@@ -73,7 +63,7 @@ class Controller(Thread):
 
         # Configure and start the server to listen for messages from machines.
         server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
-        iot_pb2_grpc.add_MachineMessagesServicer_to_server(MachineController(self), server)
+        iot_pb2_grpc.add_MachineMessagesServicer_to_server(MachineCommands(self), server)
         server.add_insecure_port(f'[::]:{self.cfg.GRPC["ListenPort"]}')
         server.start()
 
@@ -115,7 +105,7 @@ class Controller(Thread):
 
         while True:
             for m in self.regMachines:
-                self.log.debug(f"Processing machine UID : {m.uid}")
+                self.log.debug(f"Processing machine UUID : {m.uuid}")
 
                 # TODO
 

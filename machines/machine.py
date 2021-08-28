@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+from concurrent import futures
 from threading import Thread
 import time
 import grpc
@@ -7,6 +8,7 @@ import iot_pb2 as iot_pb2
 import iot_pb2_grpc as iot_pb2_grpc
 
 from constants import *
+from controllerCommands import *
 
 
 class Machine(Thread):   
@@ -30,6 +32,9 @@ class Machine(Thread):
         # Initialise state of the machine.
         self.stayAlive = True
         self.state = MachineState.STARTING
+
+        # Initialise machine variables.
+        self.uUID = ""
 
     def run(self):
         """
@@ -98,11 +103,12 @@ class Machine(Thread):
                 # Send registration command to the server.
                 response = stub.RegisterMachine(regCmd)
 
-                self.log.debug(f"Registration response received, status : {response.status}; uID : {response.uID}")
-                print(f"Registration response received, status : {response.status}; uID : {response.uID}")
+                self.log.debug(f"Registration response received, status : {response.status}; UUID : {response.uUID}")
+                print(f"Registration response received, status : {response.status}; UUID : {response.uUID}")
                 if response.status == iot_pb2.MachineStatus.MS_GOOD:
                     # Registration response good, so go to active state.
                     self.state = MachineState.ACTIVE
+                    self.uUID = response.uUID
                     registered = True
                 else:
                     regTries += 1
@@ -125,6 +131,14 @@ class Machine(Thread):
         Machine is active and registered, so process.
         """
 
+        # Processing so start listening to the controller.
+        # Configure and start the server to listen for messages from controller.
+        server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
+        iot_pb2_grpc.add_ControllerMessagesServicer_to_server(ControllerCommands(self), server)
+        server.add_insecure_port(f'[::]:{self.cfg.IPport}')
+        server.start()
+
+        print("Machine registered and processing...")
         self.log.info("Machine registered and processing...")
         while True:
             pass

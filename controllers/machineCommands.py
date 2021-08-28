@@ -3,9 +3,10 @@
 import grpc
 import iot_pb2 as iot_pb2
 import iot_pb2_grpc as iot_pb2_grpc
+import uuid
 
 
-class MachineController(iot_pb2_grpc.MachineMessages):
+class MachineCommands(iot_pb2_grpc.MachineMessages):
     """
     GRPC MachineMessages messaging class.
     """
@@ -17,14 +18,14 @@ class MachineController(iot_pb2_grpc.MachineMessages):
         if request.cmd == iot_pb2.MachineCmd.M_REGISTER:
             try:
                 # Create a new registered machine for the controller.
-                newUID = self.ctrl.issueUID()
+                newUUID = str(uuid.uuid4())
                 clientName = request.machineName
                 clientIP = request.machineIP
                 clientPort = request.machinePort
-                self.ctrl.regNewMachine(newUID, clientName, clientIP, clientPort)
+                self.ctrl.regNewMachine(newUUID, clientName, clientIP, clientPort)
 
                 # Respond to the machine that it is registered.
-                return iot_pb2.RegisterResp(status = iot_pb2.MachineStatus.MS_GOOD, uID = newUID)
+                return iot_pb2.RegisterResp(status = iot_pb2.MachineStatus.MS_GOOD, uUID = newUUID)
             except grpc.RpcError as e:
                 # Server-side GRPC error.
                 context.set_code(iot_pb2.MachineStatus.MS_SERVER_EXCEPTION)

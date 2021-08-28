@@ -37,7 +37,7 @@ message RegisterCmd {
 // Register machine RESPONSE message.
 message RegisterResp {
   MachineStatus status = 1;
-  uint32 uID = 2;
+  string uUID = 2;
 }
 
 
@@ -58,12 +58,15 @@ enum ControllerCmd {
 enum ControllerResp {
   CS_NONE = 0;
   CS_GOOD = 1;
+  CS_UNEXPECTED_CMD = 98;
+  CS_CLIENT_EXCEPTION = 99;
 }
 
 
 // Kick watchdog COMMAND message.
 message WatchdogCmd {
   ControllerCmd cmd = 1;
+  string uUID = 2;
 }
 
 
