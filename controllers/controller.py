@@ -50,7 +50,7 @@ class Controller(Thread):
 
         # Create a machine data object for the machine.
         # Add the machine data object to list of machines.
-        md = MachineData(self.cfg, self.log, newUUID, machineName, machineIP, machinePort)
+        md = MachineData(self.cfg, self.log, self, newUUID, machineName, machineIP, machinePort)
         self.regMachines.append(md)
         md.start()
 
@@ -96,6 +96,14 @@ class Controller(Thread):
         # Transition to the active state.
         self.state = ControllerState.ACTIVE
 
+    def buryDeadMachine(self, machineData):
+        """
+        Machine has died, so remove from list of active machines.
+        """
+
+        self.log.info("Removing dead machine from list of active machines...")
+        self.regMachines.remove(machineData)
+
     def controlling(self):
         """
         Performing controlling functions.
@@ -109,4 +117,4 @@ class Controller(Thread):
 
                 # TODO
 
-                time.sleep(1)
+            time.sleep(self.cfg.Timers["MainSleep"])

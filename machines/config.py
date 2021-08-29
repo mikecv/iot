@@ -42,7 +42,11 @@ class Config():
         # gRPC settings.
         self.GRPC = {
             "ServerIP" : "127.0.0.1",
-            "ServerPort" : 50051,
+            "ServerPort" : 50051
+        }
+
+        # Machine settings.
+        self.Machine = {
             "RegRetries" : 3,
             "RegDelay" : 5
         }
@@ -125,16 +129,16 @@ class Config():
                     self.GRPC["ServerPort"] = paramSaved
                     updateConfig = True
                 try:
-                    paramSaved = self.GRPC["RegRetries"]
-                    self.GRPC["RegRetries"] = config["GRPC"]["RegRetries"]
+                    paramSaved = self.Machine["RegRetries"]
+                    self.Machine["RegRetries"] = config["Machine"]["RegRetries"]
                 except Exception:
-                    self.GRPC["RegRetries"] = paramSaved
+                    self.Machine["RegRetries"] = paramSaved
                     updateConfig = True
                 try:
-                    paramSaved = self.GRPC["RegDelay"]
-                    self.GRPC["RegDelay"] = config["GRPC"]["RegDelay"]
+                    paramSaved = self.Machine["RegDelay"]
+                    self.GRMachinePC["RegDelay"] = config["Machine"]["RegDelay"]
                 except Exception:
-                    self.GRPC["RegDelay"] = paramSaved
+                    self.Machine["RegDelay"] = paramSaved
                     updateConfig = True
 
                 # If required, i.e. couldn't update all data from user configuration, then save default.
@@ -164,7 +168,8 @@ class Config():
             "LogFileSize" : self.LogFileSize,
             "LogBackups" : self.LogBackups,
             "Timers" : self.Timers,
-            "GRPC" : self.GRPC
+            "GRPC" : self.GRPC,
+            "Machine" : self.Machine
         }
 
         # Open file for writing.

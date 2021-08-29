@@ -38,7 +38,7 @@ def main(cFile, lFile):
     logger = logging.getLogger(progName)
     logger.setLevel(cfg.DebugLevel)
     handler = logging.handlers.RotatingFileHandler(lFile, maxBytes=cfg.LogFileSize, backupCount=cfg.LogBackups)
-    handler.setFormatter(logging.Formatter(fmt=f"%(asctime)s.%(msecs)03d [{cfg.MachineName:10}] [%(levelname)-8s] %(message)s", datefmt="%Y%m%d-%H:%M:%S", style="%"))
+    handler.setFormatter(logging.Formatter(fmt=f"%(asctime)s.%(msecs)03d [{cfg.MachineName:16}] [%(levelname)-8s] %(message)s", datefmt="%Y%m%d-%H:%M:%S", style="%"))
     logging.Formatter.converter = time.localtime
     logger.addHandler(handler)
 

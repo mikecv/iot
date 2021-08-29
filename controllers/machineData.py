@@ -12,14 +12,16 @@ class MachineData(Thread):
     and received from a registered machine.
     """
 
-    def __init__(self, config, log, uuid, machineName, machineIP, machinePort):
+    def __init__(self, config, log, controller, uuid, machineName, machineIP, machinePort):
         """
         Initialisation method.
         Parameters:
+            config : The controller configuration.
+            log : The controller's loggger.
+            controller : The controller the machines answer to.
             uuid : UUID of the new machine data object.
             machineIP : IP address of the machine.
             machinePort : Port number to kick.
-            wdTime : Watchdog time interval.
         """
 
         Thread.__init__(self)
@@ -27,13 +29,14 @@ class MachineData(Thread):
         self.log = log
 
         # Machine's UID and details.
+        self.controller = controller
         self.uuid = uuid
         self.machineName = machineName
         self.machineIP = machineIP
         self.machinePort = machinePort
 
         # Start a watchdog for the machine.
-        self.watchdog = MachineWatchdog(self, 1)
+        self.watchdog = MachineWatchdog(self, self.cfg.Timers["WatchDog"], self.cfg.MCtrl["WatchdogRetries"])
         self.watchdog.start()
 
         # Initialise state of the machine.
@@ -48,7 +51,7 @@ class MachineData(Thread):
 
         while self.stayAlive:
 
-            time.sleep(1)
+            time.sleep(self.cfg.MCtrl["LoopTime"])
 
     def dieMachineDie(self):
         """
@@ -58,3 +61,4 @@ class MachineData(Thread):
 
         print(f"Killing off machine, UUID : {self.uuid}")
         self.stayAlive = False
+        self.controller.buryDeadMachine(self)

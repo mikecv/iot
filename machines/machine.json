@@ -1,8 +1,8 @@
 {
     "ConfigVersion": 1,
-    "MachineName": "LV357",
+    "MachineName": "LV359",
     "IPaddress": "127.0.0.1",
-    "IPport": 50054,
+    "IPport": 50053,
     "DebugLevel": 10,
     "LogFileSize": 100000,
     "LogBackups": 3,
@@ -11,7 +11,9 @@
     },
     "GRPC": {
         "ServerIP": "127.0.0.1",
-        "ServerPort": 50051,
+        "ServerPort": 50051
+    },
+    "Machine": {
         "RegRetries": 3,
         "RegDelay": 5
     }

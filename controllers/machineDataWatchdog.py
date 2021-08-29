@@ -13,12 +13,13 @@ class MachineWatchdog(Thread):
     Class to represent a machine watchdog object.
     """
 
-    def __init__(self, machine, wdTime):
+    def __init__(self, machine, wdTime, wdRetries):
         """
         Initialisation method.
         Parameters:
             machine : Parent MachineData object.
-            wdTime : Watchdog time interval.  <TODO>
+            wdTime : Watchdog time interval.
+            wdRetries : Number of retries for watchdog failure.
         """
 
         Thread.__init__(self)
@@ -26,9 +27,10 @@ class MachineWatchdog(Thread):
         # Machine's address and watchdog details.
         self.machine = machine
         self.wdTime = wdTime
+        self.wdRetries = wdRetries
 
         # Watchdog count. If it reaches 0 then retries of watchdog expired.
-        self.wdCount = 3 # <TODO> configuration value.
+        self.wdCount = self.wdRetries
 
         # Initialise state of the machine watchdog.
         self.stayAlive = True
@@ -65,7 +67,7 @@ class MachineWatchdog(Thread):
 
                     self.machine.log.debug(f"Watchdog response received, status : {response.status}")
                     if response.status == iot_pb2.ControllerResp.CS_GOOD:
-                        self.wdCount = 3 # <TODO> configuration value.
+                        self.wdCount = self.wdRetries
                     else:
                         # Watchdog NOT kicked so decrement retry count.
                         self.wdCount -= 1
@@ -76,4 +78,4 @@ class MachineWatchdog(Thread):
                     self.wdCount -= 1
 
             # Wait watchdog period before going around again.
-            time.sleep(1)
+            time.sleep(self.wdTime)

@@ -94,7 +94,7 @@ class Machine(Thread):
 
         regTries = 0
         registered = False
-        for regTries in range(0, self.cfg.GRPC["RegRetries"]):
+        for regTries in range(0, self.cfg.Machine["RegRetries"]):
             try:
                 # Try and send a register machine command to the server.
                 self.log.info(f"Attempting to register machine with controller; try : {regTries+1}")
@@ -117,8 +117,8 @@ class Machine(Thread):
                 self.log.debug(f"GRPC error, status : {e.code()}; details : {e.details()}")
 
             # Didn't register then wait a bit and then go back and retry registration, else break.
-            if (registered == False) and (regTries < (self.cfg.GRPC["RegRetries"]-1)):
-                time.sleep(self.cfg.GRPC["RegDelay"])
+            if (registered == False) and (regTries < (self.cfg.Machine["RegRetries"]-1)):
+                time.sleep(self.cfg.Machine["RegDelay"])
             else:
                 break
 

@@ -35,7 +35,8 @@ class Config():
 
         # Timers.
         self.Timers = {
-            "MainSleep" : 1
+            "MainSleep" : 1,
+            "WatchDog" : 1.5
         }
 
         # gRPC settings.
@@ -45,7 +46,8 @@ class Config():
 
         # Machine control settings.
         self.MCtrl = {
-            "LoopTime" : 1
+            "LoopTime" : 1,
+            "WatchdogRetries" : 3
         }
 
         # Read / update configuration from file.
@@ -107,6 +109,12 @@ class Config():
                     self.Timers["MainSleep"] = paramSaved
                     updateConfig = True
                 try:
+                    paramSaved = self.Timers["WatchDog"]
+                    self.Timers["WatchDog"] = config["Timers"]["WatchDog"]
+                except Exception:
+                    self.Timers["WatchDog"] = paramSaved
+                    updateConfig = True
+                try:
                     paramSaved = self.GRPC["ListenPort"]
                     self.GRPC["ListenPort"] = config["GRPC"]["ListenPort"]
                 except Exception:
@@ -117,6 +125,12 @@ class Config():
                     self.MCtrl["LoopTime"] = config["MCtrl"]["LoopTime"]
                 except Exception:
                     self.MCtrl["LoopTime"] = paramSaved
+                    updateConfig = True
+                try:
+                    paramSaved = self.MCtrl["WatchdogRetries"]
+                    self.MCtrl["WatchdogRetries"] = config["MCtrl"]["WatchdogRetries"]
+                except Exception:
+                    self.MCtrl["WatchdogRetries"] = paramSaved
                     updateConfig = True
 
                 # If required, i.e. couldn't update all data from user configuration, then save default.
