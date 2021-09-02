@@ -5,5 +5,10 @@ controllers/dist/
 machines/__pycache__/
 machines/build/
 machines/dist/
+share/
+lib/
+lib64/
+include/
+bin/
 *.log*
 *.code-workspace

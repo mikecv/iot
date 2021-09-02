@@ -1,0 +1,12 @@
+# Environment
+python3 -m venv iot
+
+# Activate environment
+source iot/bin/activate
+
+# Leave environment
+deactivate
+
+# Installing packages (inside environment)
+python -m pip install grpcio
+python -m pip install grpcio-tools
