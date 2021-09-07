@@ -10,5 +10,8 @@ lib/
 lib64/
 include/
 bin/
+Include/
+Lib/
+Scripts/
 *.log*
 *.code-workspace
