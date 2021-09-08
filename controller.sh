@@ -1,8 +1,9 @@
 #!/bin/bash
 
-echo "Creating controller"
+source "./venv.sh"
 
-source bin/activate
+echo "Creating controller..."
+
 cd controllers
 python main.py
 

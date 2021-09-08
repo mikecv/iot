@@ -1,8 +1,9 @@
 #!/bin/bash
 
-echo "Creating machine"
+source "./venv.sh"
 
-source bin/activate
+echo "Creating machine..."
+
 cd machines
 python main.py
 
