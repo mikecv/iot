@@ -1,8 +1,5 @@
 @ECHO OFF
 
-ECHO Creating controller.
+ECHO Creating controller...
 
-.\Scripts\activate.bat
-
-cd controllers
-python main.py
+.\Scripts\activate.bat && cd controllers && python main.py
