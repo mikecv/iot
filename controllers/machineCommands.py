@@ -17,15 +17,23 @@ class MachineCommands(iot_pb2_grpc.MachineMessages):
     def RegisterMachine(self, request, context):
         if request.cmd == iot_pb2.MachineCmd.M_REGISTER:
             try:
-                # Create a new registered machine for the controller.
-                newUUID = str(uuid.uuid4())
                 clientName = request.machineName
-                clientIP = request.machineIP
-                clientPort = request.machinePort
-                self.ctrl.regNewMachine(newUUID, clientName, clientIP, clientPort)
+                if self.ctrl.slotFree():
+                    # Create a new registered machine for the controller.
+                    newUUID = str(uuid.uuid4())
+                    clientIP = request.machineIP
+                    clientPort = request.machinePort
+                    self.ctrl.regNewMachine(newUUID, clientName, clientIP, clientPort)
 
-                # Respond to the machine that it is registered.
-                return iot_pb2.RegisterResp(status = iot_pb2.MachineStatus.MS_GOOD, uUID = newUUID)
+                    # Respond to the machine that it is registered.
+                    return iot_pb2.RegisterResp(status = iot_pb2.MachineStatus.MS_GOOD, uUID = newUUID)
+                else:
+                    # Advise controller that registration failed as no slots available.
+                    self.ctrl.noMachineSlots(clientName)
+
+                    # Respond to the machine that registration failed as no slots are free.
+                    return iot_pb2.RegisterResp(status = iot_pb2.MachineStatus.MS_NO_SLOT, uUID = "")
+
             except grpc.RpcError as e:
                 # Server-side GRPC error.
                 context.set_code(iot_pb2.MachineStatus.MS_SERVER_EXCEPTION)

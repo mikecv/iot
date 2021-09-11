@@ -110,6 +110,10 @@ class Machine(Thread):
                     self.state = MachineState.ACTIVE
                     self.uUID = response.uUID
                     registered = True
+                elif response.status == iot_pb2.MachineStatus.MS_NO_SLOT:
+                    # Registration failed because no slots remaining with controller.
+                    self.uUID = response.uUID
+                    registered = False
                 else:
                     regTries += 1
             except grpc.RpcError as e:

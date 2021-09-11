@@ -36,6 +36,20 @@ class Controller(Thread):
         self.stayAlive = True
         self.state = ControllerState.STARTING
 
+
+    def slotFree(self):
+        """
+        The controller only has capacity for a limited number of machines (slots).
+        If number of slots used then return False so machine not registered.
+        """
+
+        self.log.debug(f"Checking for free machine control slot...")
+        freeSlot = True
+        if len(self.regMachines) == self.cfg.MCtrl["MaxMachines"]:
+            self.log.debug(f'Machine control slot allocation full : {self.cfg.MCtrl["MaxMachines"]}')
+            freeSlot = False
+        return freeSlot
+
     def regNewMachine(self, newUUID, machineName, machineIP, machinePort):
         """
         Register a new machine with the following UID.
@@ -50,6 +64,14 @@ class Controller(Thread):
         md = MachineData(self.cfg, self.log, self, newUUID, machineName, machineIP, machinePort)
         self.regMachines.append(md)
         md.start()
+
+    def noMachineSlots(self, machine):
+        """
+        Failed to register machine because no slots available.
+        """
+
+        print(f"Failed to register new machine as no slots available : {machine}")
+        self.log.debug(f"Failed to register new machine as no slots available : {machine}")
 
     def run(self):
         """

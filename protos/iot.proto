@@ -20,6 +20,7 @@ enum MachineCmd {
 enum MachineStatus {
   MS_NONE = 0;
   MS_GOOD = 1;
+  MS_NO_SLOT = 2;
   MS_UNEXPECTED_CMD = 98;
   MS_SERVER_EXCEPTION = 99;
 }
