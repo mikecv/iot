@@ -46,6 +46,7 @@ class Config():
 
         # Machine control settings.
         self.MCtrl = {
+            "MaxMachines" : 4,
             "LoopTime" : 1,
             "WatchdogRetries" : 3
         }
@@ -119,6 +120,12 @@ class Config():
                     self.GRPC["ListenPort"] = config["GRPC"]["ListenPort"]
                 except Exception:
                     self.GRPC["ListenPort"] = paramSaved
+                    updateConfig = True
+                try:
+                    paramSaved = self.MCtrl["MaxMachines"]
+                    self.MCtrl["MaxMachines"] = config["MCtrl"]["MaxMachines"]
+                except Exception:
+                    self.MCtrl["MaxMachines"] = paramSaved
                     updateConfig = True
                 try:
                     paramSaved = self.MCtrl["LoopTime"]
