@@ -60,7 +60,6 @@ class MachineWatchdog(Thread):
                 try:
                     # Try and send a watchdog command to the machine.
                     self.machine.log.debug(f"Kicking watchdog for machine : {self.machine.uuid}; count : {self.wdCount}")
-                    print(f"Kicking watchdog for machine : {self.machine.uuid}; count : {self.wdCount}")
 
                     # Send a command to kick the machine watchdog.
                     response = stub.KickWatchdog(kickCmd)
@@ -76,6 +75,7 @@ class MachineWatchdog(Thread):
                     self.machine.log.debug(f"GRPC error, status : {e.code()}; details : {e.details()}")
                     # Watchdog error so decrement retry count.
                     self.wdCount -= 1
+                    print(f"Missed watchdog count : {self.wdCount}")
 
             # Wait watchdog period before going around again.
             time.sleep(self.wdTime)

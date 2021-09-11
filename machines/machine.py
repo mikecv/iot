@@ -67,7 +67,7 @@ class Machine(Thread):
         Initialise class variables and state.
         """
 
-        self.log.info("Initialising machine...")
+        self.log.debug("Initialising machine...")
 
         # Initialise stay alive flag.
         self.stayAlive = True
@@ -80,7 +80,7 @@ class Machine(Thread):
         Register the machine with the controller.
         """
 
-        self.log.info("Registering machine with controller...")
+        self.log.debug("Registering machine with controller...")
 
         channel = grpc.insecure_channel(f'{self.cfg.GRPC["ServerIP"]}:{self.cfg.GRPC["ServerPort"]}')
         stub = iot_pb2_grpc.MachineMessagesStub(channel)
@@ -97,14 +97,14 @@ class Machine(Thread):
         for regTries in range(0, self.cfg.Machine["RegRetries"]):
             try:
                 # Try and send a register machine command to the server.
-                self.log.info(f"Attempting to register machine with controller; try : {regTries+1}")
-                print(f"Attempting to register machine with controller; try : {regTries+1}")
+                self.log.debug(f"Attempting to register machine with controller attempt : {regTries+1}")
+                print(f"Registering with controller, attempt : {regTries+1}")
 
                 # Send registration command to the server.
                 response = stub.RegisterMachine(regCmd)
 
                 self.log.debug(f"Registration response received, status : {response.status}; UUID : {response.uUID}")
-                print(f"Registration response received, status : {response.status}; UUID : {response.uUID}")
+                print(f"Registration response received: \n\tStatus : {response.status} \n\tUUID : {response.uUID}")
                 if response.status == iot_pb2.MachineStatus.MS_GOOD:
                     # Registration response good, so go to active state.
                     self.state = MachineState.ACTIVE
@@ -132,13 +132,12 @@ class Machine(Thread):
         """
 
         # Processing so start listening to the controller.
-        # Configure and start the server to listen for messages from controller.
+        # Configure and start the server to listen for messages from the controller.
         server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
         iot_pb2_grpc.add_ControllerMessagesServicer_to_server(ControllerCommands(self), server)
         server.add_insecure_port(f'[::]:{self.cfg.IPport}')
         server.start()
 
         print("Machine registered and processing...")
-        self.log.info("Machine registered and processing...")
         while True:
             pass

@@ -13,6 +13,7 @@
         "ListenPort": 50051
     },
     "MCtrl": {
+        "MaxMachines": 4,
         "LoopTime": 1,
         "WatchdogRetries": 3
     }

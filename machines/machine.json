@@ -1,8 +1,8 @@
 {
     "ConfigVersion": 1,
-    "MachineName": "LV359",
+    "MachineName": "Tonka",
     "IPaddress": "127.0.0.1",
-    "IPport": 50053,
+    "IPport": 50071,
     "DebugLevel": 10,
     "LogFileSize": 100000,
     "LogBackups": 3,

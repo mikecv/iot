@@ -1,0 +1,49 @@
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+SECTION 1 - BACKGROUND
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Two applications, one for a Controller, and one for Machines.
+Essentially a Controller can be connected to a number of machines, and provide
+aquisition and control of the connected machines.
+
+The machines could be autonomous and just provide status or data to the
+controller, or the machines could have some (or no) level of autonomy and
+allow the control of the machine from by the controller.
+
+The intent is that the controller would also provide a web interface to provide
+supervisory access and control to the controller and by association to the
+connected machines.
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+SECTION 2 - DESIGN
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+--------------------------------------------------------------------------------
+2.1 - Machine registration
+--------------------------------------------------------------------------------
+
+When the controller starts up, by default it has no machines connected to it,
+i.e. it is waiting for machines to register with it.
+
+Via a gRPC interface a machine can send a registration request to the controller,
+and if the Controller has not exceeded the maximum number of machines that it can
+connect to it will register the machine.
+
+Registration involves the controller issuing the machine a uuid that is required
+for future communications from the machine. This ensures alignment between the
+machine and the machine data object for the machine held by the controller.
+
+--------------------------------------------------------------------------------
+2.2 - Watchdogs
+--------------------------------------------------------------------------------
+
+After registration the controller periodically sends a gRPC watchdog command to
+each machine, afterwhich the machine responds to the watchdog kick.
+
+If the machine fails to respond to a configurable number of watchdog kicks in and
+row then the controller de-registers the machine and deletes all data held for
+the machine. At this point the machine needs to re-register if it wants to
+reinstate a connection with the controller.
+
+Similarly, if the machine fails to receive a watchdog kick from the controller
+within a configurable period then the machine will attempt to re-register with
+the controller a configurable number of times before terminating.

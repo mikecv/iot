@@ -2,8 +2,10 @@
 // iot/protos/iot.proto
 
 // Activate the virtual environment.
+source iot/bin/activate (linux)
+iot/Source/activate.bat (Win)
 
-// from the controllers folder
+// From the controllers folder
 iot/controllers $ python -m grpc_tools.protoc -I../protos --python_out=. --grpc_python_out=. ../protos/iot.proto
 
 // This generates files:

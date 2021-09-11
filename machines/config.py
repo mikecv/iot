@@ -27,7 +27,7 @@ class Config():
         # Custom machine details.
         self.MachineName = "Machine"
         self.IPaddress = "127.0.0.1"
-        self.IPport = 50051
+        self.IPport = 50061
 
         # Logger configuration values
         self.DebugLevel = 10
@@ -136,7 +136,7 @@ class Config():
                     updateConfig = True
                 try:
                     paramSaved = self.Machine["RegDelay"]
-                    self.GRMachinePC["RegDelay"] = config["Machine"]["RegDelay"]
+                    self.Machine["RegDelay"] = config["Machine"]["RegDelay"]
                 except Exception:
                     self.Machine["RegDelay"] = paramSaved
                     updateConfig = True

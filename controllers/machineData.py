@@ -60,5 +60,6 @@ class MachineData(Thread):
         """
 
         print(f"Killing off machine, UUID : {self.uuid}")
+        self.log.debug(f"Killing off machine, UUID : {self.uuid}")
         self.stayAlive = False
         self.controller.buryDeadMachine(self)

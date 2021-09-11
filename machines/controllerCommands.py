@@ -19,7 +19,6 @@ class ControllerCommands(iot_pb2_grpc.ControllerMessages):
             # If not a match then do nothing.
             if request.uUID == self.machine.uUID:
                 try:
-                    print("Received watchdog kick")
                     # Respond to the watchdog kick from the controller.
                     # Send the status of the machine.
                     return iot_pb2.WatchdogResp(status=iot_pb2.ControllerResp.CS_GOOD)

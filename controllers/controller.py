@@ -29,9 +29,6 @@ class Controller(Thread):
         self.cfg = config
         self.log = log
 
-        # Machine UIDs to be issued to registered machines.
-        self.nextUID = 1
-
         # Array of registered machines.
         self.regMachines = []
 
@@ -45,7 +42,7 @@ class Controller(Thread):
         Creates a registered machine data object.
         """
 
-        print(f"Registered new machine with UID : {newUUID}; name : {machineName}; address : {machineIP}; port : {machinePort}")
+        print(f"Registered new machine: \n\tUUID : {newUUID} \n\tName : {machineName} \n\tAddress : {machineIP} \n\tPort : {machinePort}")
         self.log.debug(f"Registered new machine with UID : {newUUID}; name : {machineName}; address : {machineIP}; port : {machinePort}")
 
         # Create a machine data object for the machine.
@@ -88,7 +85,7 @@ class Controller(Thread):
         Initialise class variables and state.
         """
 
-        self.log.info("Initialising controller...")
+        self.log.debug("Initialising controller...")
 
         # Initialise stay alive flag.
         self.stayAlive = True
@@ -101,7 +98,7 @@ class Controller(Thread):
         Machine has died, so remove from list of active machines.
         """
 
-        self.log.info("Removing dead machine from list of active machines...")
+        self.log.debug("Removing dead machine from list of active machines...")
         self.regMachines.remove(machineData)
 
     def controlling(self):
@@ -109,12 +106,11 @@ class Controller(Thread):
         Performing controlling functions.
         """
 
-        self.log.info("Performing controller processing...")
+        self.log.debug("Performing controller processing...")
 
         while True:
             for m in self.regMachines:
-                self.log.debug(f"Processing machine UUID : {m.uuid}")
-
+                pass
                 # TODO
 
             time.sleep(self.cfg.Timers["MainSleep"])
