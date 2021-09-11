@@ -11,6 +11,7 @@ import iot_pb2_grpc as iot_pb2_grpc
 class MachineWatchdog(Thread):   
     """
     Class to represent a machine watchdog object.
+    Kicks machine's watchdog periodically to make sure it is alive.
     """
 
     def __init__(self, machine, wdTime, wdRetries):

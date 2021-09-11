@@ -1,8 +1,8 @@
 {
     "ConfigVersion": 1,
-    "MachineName": "HotWheels",
+    "MachineName": "RrahCar",
     "IPaddress": "127.0.0.1",
-    "IPport": 50072,
+    "IPport": 50076,
     "DebugLevel": 10,
     "LogFileSize": 100000,
     "LogBackups": 3,
@@ -15,6 +15,7 @@
     },
     "Machine": {
         "RegRetries": 3,
-        "RegDelay": 5
+        "RegDelay": 5,
+        "ControlAwayTime": 5
     }
 }

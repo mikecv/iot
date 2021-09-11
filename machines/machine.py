@@ -30,6 +30,8 @@ class Machine(Thread):
         self.log = log
 
         # Initialise state of the machine.
+        self.lastKickTime = 0
+        self.registerd = False
         self.stayAlive = True
         self.state = MachineState.STARTING
 
@@ -62,6 +64,16 @@ class Machine(Thread):
             else:
                 self.log.error(f"State not supported : {self.state}")
 
+
+    def wdKicked(self):
+        """
+        Watchdog kicked by controller so reset the kick time.
+        Used to check that controller is still kicking (controlling)
+        the machine
+        """
+
+        self.lastKickTime = time.time()
+
     def initialise(self):
         """
         Initialise class variables and state.
@@ -73,6 +85,7 @@ class Machine(Thread):
         self.stayAlive = True
 
         # Transition to the Registering state.
+        self.registered = False
         self.state = MachineState.REGISTERING
 
     def register(self):
@@ -93,7 +106,6 @@ class Machine(Thread):
         regCmd.machinePort = self.cfg.IPport
 
         regTries = 0
-        registered = False
         for regTries in range(0, self.cfg.Machine["RegRetries"]):
             try:
                 # Try and send a register machine command to the server.
@@ -109,11 +121,12 @@ class Machine(Thread):
                     # Registration response good, so go to active state.
                     self.state = MachineState.ACTIVE
                     self.uUID = response.uUID
-                    registered = True
+                    self.lastKickTime = time.time()
+                    self.registered = True
                 elif response.status == iot_pb2.MachineStatus.MS_NO_SLOT:
                     # Registration failed because no slots remaining with controller.
                     self.uUID = response.uUID
-                    registered = False
+                    self.registered = False
                 else:
                     regTries += 1
             except grpc.RpcError as e:
@@ -121,13 +134,13 @@ class Machine(Thread):
                 self.log.debug(f"GRPC error, status : {e.code()}; details : {e.details()}")
 
             # Didn't register then wait a bit and then go back and retry registration, else break.
-            if (registered == False) and (regTries < (self.cfg.Machine["RegRetries"]-1)):
+            if (self.registered == False) and (regTries < (self.cfg.Machine["RegRetries"]-1)):
                 time.sleep(self.cfg.Machine["RegDelay"])
             else:
                 break
 
         # If machine was not registered after configurable retries then terminate.
-        if registered == False:
+        if self.registered == False:
             self.state = MachineState.TERMINATING
 
     def process(self):
@@ -143,5 +156,16 @@ class Machine(Thread):
         server.start()
 
         print("Machine registered and processing...")
-        while True:
-            pass
+        while self.registered:
+
+            # Check if still being kicked by the controller.
+            # If not then need to die as need a controller.
+            curTime = time.time()
+            if (curTime - self.lastKickTime) > self.cfg.Machine["ControlAwayTime"]:
+                self.log.debug("Controller watchdog kick not received.")
+                print("Controller watchdog kick not received.")
+
+                # Initialise the machine again.
+                # This will cause the machine to register with the controller again.
+                self.registered = False
+                self.initialise()

@@ -48,7 +48,8 @@ class Config():
         # Machine settings.
         self.Machine = {
             "RegRetries" : 3,
-            "RegDelay" : 5
+            "RegDelay" : 5,
+            "ControlAwayTime" : 5
         }
 
         # Read / update configuration from file.
@@ -139,6 +140,12 @@ class Config():
                     self.Machine["RegDelay"] = config["Machine"]["RegDelay"]
                 except Exception:
                     self.Machine["RegDelay"] = paramSaved
+                    updateConfig = True
+                try:
+                    paramSaved = self.Machine["ControlAwayTime"]
+                    self.Machine["ControlAwayTime"] = config["Machine"]["ControlAwayTime"]
+                except Exception:
+                    self.Machine["ControlAwayTime"] = paramSaved
                     updateConfig = True
 
                 # If required, i.e. couldn't update all data from user configuration, then save default.

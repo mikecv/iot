@@ -19,6 +19,10 @@ class ControllerCommands(iot_pb2_grpc.ControllerMessages):
             # If not a match then do nothing.
             if request.uUID == self.machine.uUID:
                 try:
+                    # Reset the last watchdog kicked time.
+                    # This is to know that the controller is still there.
+                    self.machine.wdKicked()
+
                     # Respond to the watchdog kick from the controller.
                     # Send the status of the machine.
                     return iot_pb2.WatchdogResp(status=iot_pb2.ControllerResp.CS_GOOD)
