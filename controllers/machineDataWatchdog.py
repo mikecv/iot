@@ -59,18 +59,29 @@ class MachineWatchdog(Thread):
                 self.machine.dieMachineDie()
             else:
                 try:
+                    # Get the transaction number to use.
+                    tx = self.machine.getNextTxNumber()
+                    kickCmd.tx = tx
+
                     # Try and send a watchdog command to the machine.
-                    self.machine.log.debug(f"Kicking watchdog for machine : {self.machine.uuid}; count : {self.wdCount}")
+                    self.machine.log.debug(f"Kicking watchdog for machine : {self.machine.uuid}; Transaction : {tx}; count : {self.wdCount}")
 
                     # Send a command to kick the machine watchdog.
                     response = stub.KickWatchdog(kickCmd)
 
-                    self.machine.log.debug(f"Watchdog response received, status : {response.status}")
-                    if response.status == iot_pb2.ControllerResp.CS_GOOD:
-                        self.wdCount = self.wdRetries
+                    self.machine.log.debug(f"Watchdog response received, transaction : {response.tx}; status : {response.status}")
+                    # If transaction number is same as accepted.
+                    if response.tx == tx:
+                        if response.status == iot_pb2.ControllerResp.CS_GOOD:
+                            self.wdCount = self.wdRetries
+                        else:
+                            # Watchdog NOT kicked so decrement retry count.
+                            self.wdCount -= 1
                     else:
-                        # Watchdog NOT kicked so decrement retry count.
+                        # Transaction number is not as expected so ignore.
                         self.wdCount -= 1
+                        self.machine.log.debug(f"Wrong transaction number, expected : {tx}; received : {response.tx}")
+
                 except grpc.RpcError as e:
                     # Failed to receive response from machine.
                     self.machine.log.debug(f"GRPC error, status : {e.code()}; details : {e.details()}")

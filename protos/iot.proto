@@ -67,11 +67,13 @@ enum ControllerResp {
 // Kick watchdog COMMAND message.
 message WatchdogCmd {
   ControllerCmd cmd = 1;
-  string uUID = 2;
+  uint32 tx = 2;
+  string uUID = 3;
 }
 
 
 // Kick watchdog RESPONSE message.
 message WatchdogResp {
-  ControllerResp status = 1;
+  uint32 tx = 1;
+  ControllerResp status = 2;
 }

@@ -25,7 +25,8 @@ class ControllerCommands(iot_pb2_grpc.ControllerMessages):
 
                     # Respond to the watchdog kick from the controller.
                     # Send the status of the machine.
-                    return iot_pb2.WatchdogResp(status=iot_pb2.ControllerResp.CS_GOOD)
+                    # Send back the same transaction number as in the command message.
+                    return iot_pb2.WatchdogResp(tx=request.tx, status=iot_pb2.ControllerResp.CS_GOOD)
 
                 except grpc.RpcError as e:
                     # Client-side GRPC error.

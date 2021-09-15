@@ -35,6 +35,9 @@ class MachineData(Thread):
         self.machineIP = machineIP
         self.machinePort = machinePort
 
+        # Transaction number.
+        self.tx = 0
+
         # Start a watchdog for the machine.
         self.watchdog = MachineWatchdog(self, self.cfg.Timers["WatchDog"], self.cfg.MCtrl["WatchdogRetries"])
         self.watchdog.start()
@@ -63,3 +66,15 @@ class MachineData(Thread):
         self.log.debug(f"Killing off machine, UUID : {self.uuid}")
         self.stayAlive = False
         self.controller.buryDeadMachine(self)
+
+    def getNextTxNumber(self):
+        """
+        Return the next transaction number to be used for messages to the machine.
+        Increment the transaction number for next message.
+        """
+
+        # Get current transaction number, and increment for next time.
+        thisTx = self.tx
+        self.tx += 1
+
+        return thisTx
