@@ -51,6 +51,12 @@ class Config():
             "WatchdogRetries" : 3
         }
 
+        # UI server settings.
+        self.UI = {
+            "UIPort" : 50150,
+            "UISleep" : 1
+        }
+
         # Read / update configuration from file.
         self.readConfig()
 
@@ -139,6 +145,18 @@ class Config():
                 except Exception:
                     self.MCtrl["WatchdogRetries"] = paramSaved
                     updateConfig = True
+                try:
+                    paramSaved = self.UI["UIPort"]
+                    self.UI["UIPort"] = config["UI"]["UIPort"]
+                except Exception:
+                    self.UI["UIPort"] = paramSaved
+                    updateConfig = True
+                try:
+                    paramSaved = self.UI["UISleep"]
+                    self.UI["UISleep"] = config["UI"]["UISleep"]
+                except Exception:
+                    self.UI["UISleep"] = paramSaved
+                    updateConfig = True
 
                 # If required, i.e. couldn't update all data from user configuration, then save default.
                 if updateConfig:
@@ -167,7 +185,8 @@ class Config():
             "LogBackups" : self.LogBackups,
             "Timers" : self.Timers,
             "GRPC" : self.GRPC,
-            "MCtrl" : self.MCtrl
+            "MCtrl" : self.MCtrl,
+            "UI" : self.UI
         }
 
         # Open file for writing.

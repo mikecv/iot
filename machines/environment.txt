@@ -6,7 +6,7 @@ source iot/bin/activate (linux)
 iot/Scripts/activate.bat (Win)
 
 // From the machines folder
-iot/machines $ python -m grpc_tools.protoc -I../protos --python_out=. --grpc_python_out=. ../protos/iot.proto
+python -m grpc_tools.protoc -I../protos --python_out=. --grpc_python_out=. ../protos/iot.proto
 
 // This generates files:
 // iot/machines/iot_pb2.py

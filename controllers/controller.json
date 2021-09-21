@@ -16,5 +16,9 @@
         "MaxMachines": 4,
         "LoopTime": 1,
         "WatchdogRetries": 3
+    },
+    "UI": {
+        "UIPort": 50150,
+        "UISleep": 1
     }
 }

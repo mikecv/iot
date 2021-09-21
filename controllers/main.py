@@ -7,6 +7,7 @@ import time
 
 from config import *
 from controller import *
+from uiServer import *
 
 # *******************************************
 # Program history.
@@ -50,6 +51,11 @@ def main(cFile, lFile):
     # Controller is a threaded class so start the thread running.
     c = Controller(cfg, logger)
     c.start()
+
+    # Create an instance of a UI server.
+    # This will present controller (and machine) data to UIs.
+    ui = UIServer(cfg, logger, c)
+    ui.start()
 
     # Keep checking if controller is still alive,
     # if so, keep processing.
