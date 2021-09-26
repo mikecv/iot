@@ -1,5 +1,6 @@
 // Compiling proto file.
 // iot/protos/iot.proto
+// iot/protos/ui.proto
 
 // Activate the virtual environment.
 source iot/bin/activate (linux)

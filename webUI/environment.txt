@@ -1,0 +1,25 @@
+// Compiling proto file.
+// iot/protos/ui.proto
+
+// Activate the virtual environment.
+source iot/bin/activate (linux)
+iot/Scripts/activate.bat (Win)
+
+// From the controllers folder
+python -m grpc_tools.protoc -I../protos --python_out=. --grpc_python_out=. ../protos/ui.proto
+
+// This generates files:
+// iot/webUI/ui_pb2.py
+// iot/webUI/ui_pb2_grpc.py
+
+// Setting up flask environment (inside virtual environment)
+// Set up from the iot/ top folder level.
+export FLASK_APP=webUI
+export FLASK_ENV=development
+
+// To initialise the flask db (if required)
+// Note that you have evironments above set up)
+flask init-db
+
+// Running flask (after environments set up)
+flask run
