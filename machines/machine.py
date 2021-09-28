@@ -95,6 +95,7 @@ class Machine(Thread):
 
         self.log.debug("Registering machine with controller...")
 
+        # Set up channel to controller to register the machine.
         channel = grpc.insecure_channel(f'{self.cfg.GRPC["ServerIP"]}:{self.cfg.GRPC["ServerPort"]}')
         stub = iot_pb2_grpc.MachineMessagesStub(channel)
 

@@ -13,6 +13,7 @@ bin/
 Include/
 Lib/
 Scripts/
+var/
 pyvenv.cfg
 *.log*
 *.code-workspace

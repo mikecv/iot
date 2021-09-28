@@ -1,5 +1,12 @@
 {% extends 'base.html' %}
 
 {% block header %}
-  <h2>Controller Interface...</h2>
+  {% if g.user %}
+    <h2>Controller Interface...</h2>
+    <br>
+    <!-- <p>UI value {{ uiVal }}</p> -->
+  {% else %}
+    <p>Thank you for using MicControl.</p>
+  {% endif %}
+
 {% endblock %}

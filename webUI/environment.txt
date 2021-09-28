@@ -5,7 +5,7 @@
 source iot/bin/activate (linux)
 iot/Scripts/activate.bat (Win)
 
-// From the controllers folder
+// From the webUI folder
 python -m grpc_tools.protoc -I../protos --python_out=. --grpc_python_out=. ../protos/ui.proto
 
 // This generates files:
@@ -23,3 +23,5 @@ flask init-db
 
 // Running flask (after environments set up)
 flask run
+
+// Login from http://127.0.0.1:5000/auth/login
