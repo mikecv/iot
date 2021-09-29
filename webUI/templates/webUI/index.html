@@ -3,8 +3,7 @@
 {% block header %}
   {% if g.user %}
     <h2>Controller Interface...</h2>
-    <br>
-    <!-- <p>UI value {{ uiVal }}</p> -->
+    <p>Link is stale : {{ link }}</p>
   {% else %}
     <p>Thank you for using MicControl.</p>
   {% endif %}

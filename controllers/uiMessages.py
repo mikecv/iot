@@ -13,11 +13,12 @@ class UiCommands(ui_pb2_grpc.UiMessages):
         self.cfg = config
         self.ctrl = controller
 
-    def StatusCmdStatus(self, request, context):
+    def GetControllerStatus(self, request, context):
         if request.cmd == ui_pb2.UiCmd.U_CNTRL_STATUS:
             try:
                 # Respond to the UI.
-                return ui_pb2.ControllerStatusResp(status = ui_pb2.StatusCmdStatus.US_GOOD, name = self.cfg.ControllerName, state = self.ctrl.state)
+                # return ui_pb2.ControllerStatusResp(status = ui_pb2.StatusCmdStatus.US_GOOD, name = self.cfg.ControllerName, state = self.ctrl.state)
+                return ui_pb2.ControllerStatusResp(status = ui_pb2.StatusCmdStatus.US_GOOD, name = self.cfg.ControllerName, state = str(self.ctrl.state))
 
             except grpc.RpcError as e:
                 # Server-side GRPC error.
