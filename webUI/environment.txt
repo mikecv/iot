@@ -4,6 +4,7 @@
 // Activate the virtual environment.
 source iot/bin/activate (linux)
 iot/Scripts/activate.bat (Win)
+iot/Scripts/Activate.ps1 (Win PowerShell)
 
 // From the webUI folder
 python -m grpc_tools.protoc -I../protos --python_out=. --grpc_python_out=. ../protos/ui.proto
@@ -14,8 +15,8 @@ python -m grpc_tools.protoc -I../protos --python_out=. --grpc_python_out=. ../pr
 
 // Setting up flask environment (inside virtual environment)
 // Set up from the iot/ top folder level.
-export FLASK_APP=webUI
-export FLASK_ENV=development
+export FLASK_APP=webUI (linux)
+export FLASK_ENV=development (linux)
 
 // To initialise the flask db (if required)
 // Note that you have evironments above set up)
