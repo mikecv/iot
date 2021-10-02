@@ -1,17 +1,19 @@
+// Files relative to top level iot/ folder.
+
 // Compiling proto file.
 // iot/protos/ui.proto
 
 // Activate the virtual environment.
-source iot/bin/activate (linux)
-iot/Scripts/activate.bat (Win)
-iot/Scripts/Activate.ps1 (Win PowerShell)
+source venv/bin/activate (linux)
+venv/Scripts/activate.bat (Win)
+venv/Scripts/Activate.ps1 (Win PowerShell)
 
 // From the webUI folder
 python -m grpc_tools.protoc -I../protos --python_out=. --grpc_python_out=. ../protos/ui.proto
 
 // This generates files:
-// iot/webUI/ui_pb2.py
-// iot/webUI/ui_pb2_grpc.py
+// ./webUI/ui_pb2.py
+// ./webUI/ui_pb2_grpc.py
 
 // Setting up flask environment (inside virtual environment)
 // Set up from the iot/ top folder level.

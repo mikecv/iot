@@ -7,7 +7,6 @@ import webUI.ui_pb2_grpc as ui_pb2_grpc
 
 from webUI.auth import login_required
 from webUI.db import get_db
-from webUI.systemInfo import SystemInfo
 
 bp = Blueprint('webUI', __name__)
 

@@ -5,15 +5,7 @@ controllers/dist/
 machines/__pycache__/
 machines/build/
 machines/dist/
-share/
-lib/
-lib64/
-include/
-bin/
-Include/
-Lib/
-Scripts/
-var/
-pyvenv.cfg
+instance/
+venv/
 *.log*
 *.code-workspace

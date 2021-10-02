@@ -1,9 +1,9 @@
 # Environment
-python3 -m venv iot
+python3 -m venv venv
 
 # Activate environment
-source iot/bin/activate (linux)
-iot/Source/activate.bat (Win)
+source venv/bin/activate (linux)
+venv/Source/activate.bat (Win)
 
 # Leave environment
 deactivate

@@ -2,7 +2,7 @@
 
 source "./venv.sh"
 
-echo "Creating proto file..."
+echo "Creating proto files..."
 
 cd controllers
 python -m grpc_tools.protoc -I../protos --python_out=. --grpc_python_out=. ../protos/iot.proto
