@@ -36,4 +36,5 @@ message ControllerStatusResp {
   StatusCmdStatus status = 1;
   string name = 2;
   string state = 3;
+  string cTime = 4;
 }

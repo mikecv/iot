@@ -1,11 +1,9 @@
 {% extends 'base.html' %}
 
-<!-- <meta http-equiv="refresh" content="1" > -->
-
 {% block header %}
   <head>
     {% if g.user %}
-      <meta http-equiv="refresh" content="1">
+      <meta http-equiv="refresh" content="{{ refresh }}">
     {% endif %}
   </head>
 {% endblock %}
@@ -13,8 +11,16 @@
 <section class="content">
   {% block content %}
     {% if g.user %}
-      <h2>Controller Interface...</h2>
-      <p>Link is stale : {{ link }}</p>
+      <h2>Controller Interface</h2>
+      {% if linkStale == True %}
+        <p>Waiting for controller to connect...</p>
+      {% else %}
+        <p>Controller connected!</p>
+        <p>Name : {{ cData["name"] }}</p>
+        <p>status : {{ cData["status"] }}</p>
+        <p>State : {{ cData["state"] }}</p>
+        <p>Time : {{ cData["cTime"] }}</p>
+      {% endif %}
     {% else %}
       <p>Thank you for using MicControl.</p>
     {% endif %}

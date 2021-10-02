@@ -1,10 +1,10 @@
 from flask import Blueprint, flash, g, redirect, render_template, request, url_for
 from werkzeug.exceptions import abort
-import time
 import grpc
 import webUI.ui_pb2 as ui_pb2
 import webUI.ui_pb2_grpc as ui_pb2_grpc
 
+from flask import current_app
 from webUI.auth import login_required
 from webUI.db import get_db
 
@@ -17,7 +17,7 @@ def index():
     """
 
     # Set up channel to controller to get status information.
-    channel = grpc.insecure_channel('127.0.0.1:50150')
+    channel = grpc.insecure_channel(f'{current_app.config["UI_IP"]}:{current_app.config["UI_PORT"]}')
     stub = ui_pb2_grpc.UiMessagesStub(channel)
 
     # Construct command message object.
@@ -27,16 +27,28 @@ def index():
     # Initialise flag for stale data,
     # i.e. if no or failed status response from controller.
     staleData = True
+    cntrlData = {}
+
+    # Initialise web page refresh rate to slow.
+    # If connected to a controller then can speed up.
+    updatePeriod = current_app.config["UI_REFRESH_PERIOD_SLOW"]
     try:
         # Send status request command to the server.
         response = stub.GetControllerStatus(getStatusCmd)
 
         if response.status == ui_pb2.StatusCmdStatus.US_GOOD:
             # Status response good, so update status object.
-            # <TODO> deserialise data and pass to template.
             staleData = False
+            cntrlData = {
+                "status" : response.status,
+                "name" : response.name,
+                "state" : response.state,
+                "cTime" : response.cTime
+            }
+            # Speed up web page refresh rate now that we are connected.
+            updatePeriod = current_app.config["UI_REFRESH_PERIOD_FAST"]
     except grpc.RpcError as e:
         # Failed to receive response from server.
-        print("GRPC error getting controller status.")
+        pass
 
-    return render_template('webUI/index.html', link=staleData)
+    return render_template('webUI/index.html', refresh=updatePeriod, linkStale=staleData, cData=cntrlData)

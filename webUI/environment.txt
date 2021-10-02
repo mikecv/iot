@@ -9,11 +9,13 @@ venv/Scripts/activate.bat (Win)
 venv/Scripts/Activate.ps1 (Win PowerShell)
 
 // From the webUI folder
-python -m grpc_tools.protoc -I../protos --python_out=. --grpc_python_out=. ../protos/ui.proto
+python -m grpc_tools.protoc -I ../protos --python_out=. --grpc_python_out=. ../protos/ui.proto
 
 // This generates files:
 // ./webUI/ui_pb2.py
 // ./webUI/ui_pb2_grpc.py
+// Need to edit ui_pb2_grpc.py to fix import to:
+// import webUI.ui_pb2 as ui__pb2
 
 // Setting up flask environment (inside virtual environment)
 // Set up from the iot/ top folder level.
