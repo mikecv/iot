@@ -1,13 +1,22 @@
 {% extends 'base.html' %}
 
-<meta http-equiv="refresh" content="1" >
+<!-- <meta http-equiv="refresh" content="1" > -->
 
 {% block header %}
-  {% if g.user %}
-    <h2>Controller Interface...</h2>
-    <p>Link is stale : {{ link }}</p>
-  {% else %}
-    <p>Thank you for using MicControl.</p>
-  {% endif %}
-
+  <head>
+    {% if g.user %}
+      <meta http-equiv="refresh" content="1">
+    {% endif %}
+  </head>
 {% endblock %}
+
+<section class="content">
+  {% block content %}
+    {% if g.user %}
+      <h2>Controller Interface...</h2>
+      <p>Link is stale : {{ link }}</p>
+    {% else %}
+      <p>Thank you for using MicControl.</p>
+    {% endif %}
+  {% endblock %}
+</section>
