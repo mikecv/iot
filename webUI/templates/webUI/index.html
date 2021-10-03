@@ -29,11 +29,19 @@
               <th><a>Time</a></th>
               <th><a-dyn>{{ cData["cTime"] }}</a-dyn></th>
             </tr>
+            <tr>
+              <th><a>Machines</a></th>
+              <th><a-dyn>{{ cData["nMach"] }}</a-dyn></th>
+            </tr>
         </table>
         </div>
       {% endif %}
-    {% else %}
-      <p>Thank you for using MicControl.</p>
+
+      <h2>***TEST OF MACHINE DATA***</h2>
+      <a>Machine 1 : {{ mData[0]["machName"] }}</a>
+
+      {% else %}
+        <p>Thank you for using MicControl.</p>
     {% endif %}
   {% endblock %}
 </section>

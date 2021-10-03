@@ -11,9 +11,19 @@ class ControllerCommands(iot_pb2_grpc.ControllerMessages):
     """
 
     def __init__(self, machine):
+        """
+        Initialisation method.
+        Parameters:
+            machine : Machine object interfaced to.
+        """
+
         self.machine = machine
 
     def KickWatchdog(self, request, context):
+        """
+        Respond to watchdog kick from the controller.
+        """
+
         if request.cmd == iot_pb2.ControllerCmd.C_WATCHDOG:
             # Do a check that the machine UID is correct.
             # If not a match then do nothing.

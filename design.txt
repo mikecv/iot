@@ -65,3 +65,10 @@ the clients with particular controller and client data.
 
 Similarly, the controller is listening for control commands from the UI to
 perform specific control functions.
+
+The requesting of data from the controller is split into 2 messages.
+The first message is to get controller status, which includes the number of
+connected machines. If there are connected machines then a second message is
+used to get the data for all the machines. The machine data will be larger
+than the controller status so it is serialised by the controller, and then
+deserialised by the UI for display.

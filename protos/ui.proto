@@ -8,12 +8,14 @@ package ui;
 // *****************************************
 service UiMessages {
   rpc GetControllerStatus (ControllerStatusCmd) returns (ControllerStatusResp) {}
+  rpc GetMachinesData (MachinesDataCmd) returns (MachinesDataResp) {}
 }
 
 // UI commands
 enum UiCmd {
   U_NONE = 0;
   U_CNTRL_STATUS = 1;
+  U_MACHINE_DATA = 2;
 }
 
 // UI command response status
@@ -37,4 +39,18 @@ message ControllerStatusResp {
   string name = 2;
   string state = 3;
   string cTime = 4;
+  uint32 numMachines = 5;
+}
+
+
+// Get machines data COMMAND message.
+message MachinesDataCmd {
+  UiCmd cmd = 1;
+}
+
+
+// Get machines data RESPONSE message.
+message MachinesDataResp {
+  StatusCmdStatus status = 1;
+  string machinesData = 2;
 }

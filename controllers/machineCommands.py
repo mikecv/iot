@@ -15,6 +15,10 @@ class MachineCommands(iot_pb2_grpc.MachineMessages):
         self.ctrl = controller
 
     def RegisterMachine(self, request, context):
+        """
+        Respond to register machine request from machine.
+        """
+
         if request.cmd == iot_pb2.MachineCmd.M_REGISTER:
             try:
                 clientName = request.machineName

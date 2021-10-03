@@ -20,7 +20,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x08ui.proto\x12\x02ui\"-\n\x13\x43ontrollerStatusCmd\x12\x16\n\x03\x63md\x18\x01 \x01(\x0e\x32\t.ui.UiCmd\"g\n\x14\x43ontrollerStatusResp\x12#\n\x06status\x18\x01 \x01(\x0e\x32\x13.ui.StatusCmdStatus\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\r\n\x05state\x18\x03 \x01(\t\x12\r\n\x05\x63Time\x18\x04 \x01(\t*\'\n\x05UiCmd\x12\n\n\x06U_NONE\x10\x00\x12\x12\n\x0eU_CNTRL_STATUS\x10\x01*[\n\x0fStatusCmdStatus\x12\x0b\n\x07US_NONE\x10\x00\x12\x0b\n\x07US_GOOD\x10\x01\x12\x15\n\x11US_UNEXPECTED_CMD\x10\x62\x12\x17\n\x13US_SERVER_EXCEPTION\x10\x63\x32X\n\nUiMessages\x12J\n\x13GetControllerStatus\x12\x17.ui.ControllerStatusCmd\x1a\x18.ui.ControllerStatusResp\"\x00\x62\x06proto3'
+  serialized_pb=b'\n\x08ui.proto\x12\x02ui\"-\n\x13\x43ontrollerStatusCmd\x12\x16\n\x03\x63md\x18\x01 \x01(\x0e\x32\t.ui.UiCmd\"|\n\x14\x43ontrollerStatusResp\x12#\n\x06status\x18\x01 \x01(\x0e\x32\x13.ui.StatusCmdStatus\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\r\n\x05state\x18\x03 \x01(\t\x12\r\n\x05\x63Time\x18\x04 \x01(\t\x12\x13\n\x0bnumMachines\x18\x05 \x01(\r\")\n\x0fMachinesDataCmd\x12\x16\n\x03\x63md\x18\x01 \x01(\x0e\x32\t.ui.UiCmd\"M\n\x10MachinesDataResp\x12#\n\x06status\x18\x01 \x01(\x0e\x32\x13.ui.StatusCmdStatus\x12\x14\n\x0cmachinesData\x18\x02 \x01(\t*;\n\x05UiCmd\x12\n\n\x06U_NONE\x10\x00\x12\x12\n\x0eU_CNTRL_STATUS\x10\x01\x12\x12\n\x0eU_MACHINE_DATA\x10\x02*[\n\x0fStatusCmdStatus\x12\x0b\n\x07US_NONE\x10\x00\x12\x0b\n\x07US_GOOD\x10\x01\x12\x15\n\x11US_UNEXPECTED_CMD\x10\x62\x12\x17\n\x13US_SERVER_EXCEPTION\x10\x63\x32\x98\x01\n\nUiMessages\x12J\n\x13GetControllerStatus\x12\x17.ui.ControllerStatusCmd\x1a\x18.ui.ControllerStatusResp\"\x00\x12>\n\x0fGetMachinesData\x12\x13.ui.MachinesDataCmd\x1a\x14.ui.MachinesDataResp\"\x00\x62\x06proto3'
 )
 
 _UICMD = _descriptor.EnumDescriptor(
@@ -40,11 +40,16 @@ _UICMD = _descriptor.EnumDescriptor(
       serialized_options=None,
       type=None,
       create_key=_descriptor._internal_create_key),
+    _descriptor.EnumValueDescriptor(
+      name='U_MACHINE_DATA', index=2, number=2,
+      serialized_options=None,
+      type=None,
+      create_key=_descriptor._internal_create_key),
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=168,
-  serialized_end=207,
+  serialized_start=311,
+  serialized_end=370,
 )
 _sym_db.RegisterEnumDescriptor(_UICMD)
 
@@ -79,14 +84,15 @@ _STATUSCMDSTATUS = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=209,
-  serialized_end=300,
+  serialized_start=372,
+  serialized_end=463,
 )
 _sym_db.RegisterEnumDescriptor(_STATUSCMDSTATUS)
 
 StatusCmdStatus = enum_type_wrapper.EnumTypeWrapper(_STATUSCMDSTATUS)
 U_NONE = 0
 U_CNTRL_STATUS = 1
+U_MACHINE_DATA = 2
 US_NONE = 0
 US_GOOD = 1
 US_UNEXPECTED_CMD = 98
@@ -162,6 +168,13 @@ _CONTROLLERSTATUSRESP = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='numMachines', full_name='ui.ControllerStatusResp.numMachines', index=4,
+      number=5, type=13, cpp_type=3, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
   ],
   extensions=[
   ],
@@ -175,13 +188,88 @@ _CONTROLLERSTATUSRESP = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=63,
-  serialized_end=166,
+  serialized_end=187,
+)
+
+
+_MACHINESDATACMD = _descriptor.Descriptor(
+  name='MachinesDataCmd',
+  full_name='ui.MachinesDataCmd',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='cmd', full_name='ui.MachinesDataCmd.cmd', index=0,
+      number=1, type=14, cpp_type=8, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=189,
+  serialized_end=230,
+)
+
+
+_MACHINESDATARESP = _descriptor.Descriptor(
+  name='MachinesDataResp',
+  full_name='ui.MachinesDataResp',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='status', full_name='ui.MachinesDataResp.status', index=0,
+      number=1, type=14, cpp_type=8, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='machinesData', full_name='ui.MachinesDataResp.machinesData', index=1,
+      number=2, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=232,
+  serialized_end=309,
 )
 
 _CONTROLLERSTATUSCMD.fields_by_name['cmd'].enum_type = _UICMD
 _CONTROLLERSTATUSRESP.fields_by_name['status'].enum_type = _STATUSCMDSTATUS
+_MACHINESDATACMD.fields_by_name['cmd'].enum_type = _UICMD
+_MACHINESDATARESP.fields_by_name['status'].enum_type = _STATUSCMDSTATUS
 DESCRIPTOR.message_types_by_name['ControllerStatusCmd'] = _CONTROLLERSTATUSCMD
 DESCRIPTOR.message_types_by_name['ControllerStatusResp'] = _CONTROLLERSTATUSRESP
+DESCRIPTOR.message_types_by_name['MachinesDataCmd'] = _MACHINESDATACMD
+DESCRIPTOR.message_types_by_name['MachinesDataResp'] = _MACHINESDATARESP
 DESCRIPTOR.enum_types_by_name['UiCmd'] = _UICMD
 DESCRIPTOR.enum_types_by_name['StatusCmdStatus'] = _STATUSCMDSTATUS
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
@@ -200,6 +288,20 @@ ControllerStatusResp = _reflection.GeneratedProtocolMessageType('ControllerStatu
   })
 _sym_db.RegisterMessage(ControllerStatusResp)
 
+MachinesDataCmd = _reflection.GeneratedProtocolMessageType('MachinesDataCmd', (_message.Message,), {
+  'DESCRIPTOR' : _MACHINESDATACMD,
+  '__module__' : 'ui_pb2'
+  # @@protoc_insertion_point(class_scope:ui.MachinesDataCmd)
+  })
+_sym_db.RegisterMessage(MachinesDataCmd)
+
+MachinesDataResp = _reflection.GeneratedProtocolMessageType('MachinesDataResp', (_message.Message,), {
+  'DESCRIPTOR' : _MACHINESDATARESP,
+  '__module__' : 'ui_pb2'
+  # @@protoc_insertion_point(class_scope:ui.MachinesDataResp)
+  })
+_sym_db.RegisterMessage(MachinesDataResp)
+
 
 
 _UIMESSAGES = _descriptor.ServiceDescriptor(
@@ -209,8 +311,8 @@ _UIMESSAGES = _descriptor.ServiceDescriptor(
   index=0,
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_start=302,
-  serialized_end=390,
+  serialized_start=466,
+  serialized_end=618,
   methods=[
   _descriptor.MethodDescriptor(
     name='GetControllerStatus',
@@ -219,6 +321,16 @@ _UIMESSAGES = _descriptor.ServiceDescriptor(
     containing_service=None,
     input_type=_CONTROLLERSTATUSCMD,
     output_type=_CONTROLLERSTATUSRESP,
+    serialized_options=None,
+    create_key=_descriptor._internal_create_key,
+  ),
+  _descriptor.MethodDescriptor(
+    name='GetMachinesData',
+    full_name='ui.UiMessages.GetMachinesData',
+    index=1,
+    containing_service=None,
+    input_type=_MACHINESDATACMD,
+    output_type=_MACHINESDATARESP,
     serialized_options=None,
     create_key=_descriptor._internal_create_key,
   ),
