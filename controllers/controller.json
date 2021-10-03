@@ -1,6 +1,6 @@
 {
     "ConfigVersion": 1,
-    "ControllerName": "Controller",
+    "ControllerName": "Dumbledore",
     "IPaddress": "127.0.0.1",
     "DebugLevel": 10,
     "LogFileSize": 100000,

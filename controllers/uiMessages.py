@@ -22,7 +22,7 @@ class UiCommands(ui_pb2_grpc.UiMessages):
                 resp = ui_pb2.ControllerStatusResp()
                 resp.status = ui_pb2.StatusCmdStatus.US_GOOD
                 resp.name = self.cfg.ControllerName
-                resp.state = str(self.ctrl.state)
+                resp.state = self.ctrl.state.name
                 resp.cTime = datetime.now().strftime("%H:%M:%S")
                 return resp
 

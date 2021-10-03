@@ -1,5 +1,5 @@
 html {
-    font-family: sans-serif;
+    font-family: monospace;
     background: #eee;
     padding: 1rem;
   }
@@ -19,7 +19,12 @@ html {
   a {
     color: #377ba8;
   }
-  
+
+  a-dyn {
+    color: #000000;
+    font-weight: normal;
+  }
+
   hr {
     border: none;
     border-top: 1px solid lightgray;

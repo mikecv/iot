@@ -40,7 +40,6 @@ def index():
             # Status response good, so update status object.
             staleData = False
             cntrlData = {
-                "status" : response.status,
                 "name" : response.name,
                 "state" : response.state,
                 "cTime" : response.cTime

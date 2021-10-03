@@ -4,7 +4,6 @@ from concurrent import futures
 from threading import Thread
 import time
 import grpc
-import ui_pb2 as ui_pb2
 import ui_pb2_grpc as ui_pb2_grpc
 
 from constants import *

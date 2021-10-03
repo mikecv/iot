@@ -13,13 +13,24 @@
     {% if g.user %}
       <h2>Controller Interface</h2>
       {% if linkStale == True %}
-        <p>Waiting for controller to connect...</p>
+        <a>Waiting for controller to connect...</a>
       {% else %}
-        <p>Controller connected!</p>
-        <p>Name : {{ cData["name"] }}</p>
-        <p>status : {{ cData["status"] }}</p>
-        <p>State : {{ cData["state"] }}</p>
-        <p>Time : {{ cData["cTime"] }}</p>
+        <div>
+          <table style="text-align:left">
+            <tr>
+              <th width="50px"; ><a>Name</a></th>
+              <th><a-dyn>{{ cData["name"] }}</a-dyn></th>
+            </tr>
+            <tr>
+              <th><a>State</a></th>
+              <th><a-dyn>{{ cData["state"] }}</a-dyn></th>
+            </tr>
+            <tr>
+              <th><a>Time</a></th>
+              <th><a-dyn>{{ cData["cTime"] }}</a-dyn></th>
+            </tr>
+        </table>
+        </div>
       {% endif %}
     {% else %}
       <p>Thank you for using MicControl.</p>

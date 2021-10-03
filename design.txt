@@ -47,3 +47,21 @@ reinstate a connection with the controller.
 Similarly, if the machine fails to receive a watchdog kick from the controller
 within a configurable period then the machine will attempt to re-register with
 the controller a configurable number of times before terminating.
+
+--------------------------------------------------------------------------------
+2.3 - User Interface
+--------------------------------------------------------------------------------
+
+As well as registering machines the controller serves controller and machine
+data to an external UI.
+
+The User Interface is a simple Flask web server, based on the tutorial on
+the Flask Home Page. The web server includes a basic registration and login
+functionality, and limited web pages, predominantly display of controller and
+machine data, and a limited number of user controls.
+
+The controller is listening for gRPC requests from UI clients and responds to
+the clients with particular controller and client data.
+
+Similarly, the controller is listening for control commands from the UI to
+perform specific control functions.
