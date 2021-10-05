@@ -5,7 +5,6 @@ controllers/dist/
 machines/__pycache__/
 machines/build/
 machines/dist/
-instance/
 venv/
 *.log*
 *.code-workspace

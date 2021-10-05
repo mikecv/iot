@@ -2,4 +2,4 @@
 
 ECHO Creating controller...
 
-.venv\Scripts\activate.bat && cd controllers && python main.py
+venv\Scripts\activate.bat && cd controllers && python main.py

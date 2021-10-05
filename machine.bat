@@ -2,4 +2,4 @@
 
 ECHO Creating machine...
 
-.\venv\Scripts\activate.bat && cd machines && python main.py
+venv\Scripts\activate.bat && cd machines && python main.py

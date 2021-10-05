@@ -5,8 +5,8 @@
 
 // Activate the virtual environment.
 source venv/bin/activate (linux)
-venv/Scripts/activate.bat (Win)
-venv/Scripts/Activate.ps1 (Win PowerShell)
+venv\Scripts\activate.bat (CMD)
+venv\Scripts\Activate.ps1 (Win PowerShell)
 
 // From the machines folder
 python -m grpc_tools.protoc -I../protos --python_out=. --grpc_python_out=. ../protos/iot.proto
