@@ -5,6 +5,7 @@ controllers/dist/
 machines/__pycache__/
 machines/build/
 machines/dist/
+instance/*.sqlite
 venv/
 *.log*
 *.code-workspace

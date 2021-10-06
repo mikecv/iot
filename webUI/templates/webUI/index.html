@@ -10,7 +10,9 @@
 
 <section class="content">
   {% block content %}
-    {% if g.user %}
+    {% if g.user %
+
+      <!-- Controller status if user logged in. -->
       <h2>Controller Interface</h2>
       {% if linkStale == True %}
         <a>Waiting for controller to connect...</a>
@@ -35,13 +37,18 @@
             </tr>
         </table>
         </div>
+
+        <!-- Machine data for all connected machines (if any) -->
+        <h2>Machine Data</h2>
+        {% if cData["nMach"] > 0 %}
+          {% for m in range(0, cData["nMach"]) %}
+            <p>Machine {{ m + 1 }} : {{ mData[m]["machName"] }} </p>
+          {% endfor %}
+        {% endif %}
+
       {% endif %}
-
-      <h2>***TEST OF MACHINE DATA***</h2>
-      <a>Machine 1 : {{ mData[0]["machName"] }}</a>
-
-      {% else %}
-        <p>Thank you for using MicControl.</p>
+    {% else %}
+      <p>Thank you for using MicControl.</p>
     {% endif %}
   {% endblock %}
 </section>
