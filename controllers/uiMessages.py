@@ -86,7 +86,7 @@ class UiCommands(ui_pb2_grpc.UiMessages):
         for m in self.ctrl.regMachines:
             mData = {
                 "machName" : m.machineName,
-                "machUuid" : m.uuid,
+                "machSessId" : str(m.sessId),
                 "machIp" : m.machineIP,
                 "machPort" : m.machinePort
             }

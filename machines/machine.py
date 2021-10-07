@@ -36,7 +36,7 @@ class Machine(Thread):
         self.state = MachineState.STARTING
 
         # Initialise machine variables.
-        self.uUID = ""
+        self.sessId = 0
 
     def run(self):
         """
@@ -84,6 +84,9 @@ class Machine(Thread):
         # Initialise stay alive flag.
         self.stayAlive = True
 
+        # Initialise machine session Id.
+        self.sessId = 0
+
         # Transition to the Registering state.
         self.registered = False
         self.state = MachineState.REGISTERING
@@ -116,17 +119,17 @@ class Machine(Thread):
                 # Send registration command to the server.
                 response = stub.RegisterMachine(regCmd)
 
-                self.log.debug(f"Registration response received, status : {response.status}; UUID : {response.uUID}")
-                print(f"Registration response received: \n\tStatus : {response.status} \n\tUUID : {response.uUID}")
+                self.log.debug(f"Registration response received, status : {response.status}; Session Id : {response.sessId}")
+                print(f"Registration response received: \n\tStatus : {response.status} \n\tSession Id : {response.sessId}")
                 if response.status == iot_pb2.MachineStatus.MS_GOOD:
                     # Registration response good, so go to active state.
                     self.state = MachineState.ACTIVE
-                    self.uUID = response.uUID
+                    self.sessId = response.sessId
                     self.lastKickTime = time.time()
                     self.registered = True
                 elif response.status == iot_pb2.MachineStatus.MS_NO_SLOT:
                     # Registration failed because no slots remaining with controller.
-                    self.uUID = response.uUID
+                    self.sessId = 0
                     self.registered = False
                 else:
                     regTries += 1

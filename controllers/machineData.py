@@ -12,14 +12,14 @@ class MachineData(Thread):
     and received from a registered machine.
     """
 
-    def __init__(self, config, log, controller, uuid, machineName, machineIP, machinePort):
+    def __init__(self, config, log, controller, sessId, machineName, machineIP, machinePort):
         """
         Initialisation method.
         Parameters:
             config : The controller configuration.
             log : The controller's loggger.
             controller : The controller the machines answer to.
-            uuid : UUID of the new machine data object.
+            sessId : Session ID of the new machine data object.
             machineIP : IP address of the machine.
             machinePort : Port number to kick.
         """
@@ -30,7 +30,7 @@ class MachineData(Thread):
 
         # Machine's UID and details.
         self.controller = controller
-        self.uuid = uuid
+        self.sessId = sessId
         self.machineName = machineName
         self.machineIP = machineIP
         self.machinePort = machinePort
@@ -62,8 +62,8 @@ class MachineData(Thread):
         This is most likely due to the machine not being responsive.
         """
 
-        print(f"Killing off machine, UUID : {self.uuid}")
-        self.log.debug(f"Killing off machine, UUID : {self.uuid}")
+        print(f"Killing off machine, Session Id : {self.sessId}")
+        self.log.debug(f"Killing off machine,  Session Id : {self.sessId}")
         self.stayAlive = False
         self.controller.buryDeadMachine(self)
 

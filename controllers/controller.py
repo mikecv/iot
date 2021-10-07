@@ -32,10 +32,12 @@ class Controller(Thread):
         # Array of registered machines.
         self.regMachines = []
 
+        # Initialise last session ID issued.
+        self.lastSessionId = 0
+
         # Initialise state of the controller.
         self.stayAlive = True
         self.state = ControllerState.STARTING
-
 
     def slotFree(self):
         """
@@ -50,20 +52,35 @@ class Controller(Thread):
             freeSlot = False
         return freeSlot
 
-    def regNewMachine(self, newUUID, machineName, machineIP, machinePort):
+    def getNextSessId(self):
         """
-        Register a new machine with the following UID.
+        Assign an Id for the machine.
+        Increment the next session I for next time 
+        """
+        # Increment last session Id.
+        self.lastSessionId += 1
+        return self.lastSessionId
+
+
+    def regNewMachine(self, machineName, machineIP, machinePort):
+        """
+        Register a new machine after allocating a session ID.
         Creates a registered machine data object.
         """
 
-        print(f"Registered new machine: \n\tUUID : {newUUID} \n\tName : {machineName} \n\tAddress : {machineIP} \n\tPort : {machinePort}")
-        self.log.debug(f"Registered new machine with UID : {newUUID}; name : {machineName}; address : {machineIP}; port : {machinePort}")
+        # Get next session Id for this machine.
+        sessId = self.getNextSessId()
+
+        print(f"Registered new machine: \n\tSession ID : {sessId} \n\tName : {machineName} \n\tAddress : {machineIP} \n\tPort : {machinePort}")
+        self.log.debug(f"Registered new machine with Session ID : {sessId}; name : {machineName}; address : {machineIP}; port : {machinePort}")
 
         # Create a machine data object for the machine.
         # Add the machine data object to list of machines.
-        md = MachineData(self.cfg, self.log, self, newUUID, machineName, machineIP, machinePort)
+        md = MachineData(self.cfg, self.log, self, sessId, machineName, machineIP, machinePort)
         self.regMachines.append(md)
         md.start()
+
+        return sessId
 
     def noMachineSlots(self, machine):
         """

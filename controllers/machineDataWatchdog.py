@@ -49,7 +49,7 @@ class MachineWatchdog(Thread):
         # Construct the watchdog message. Can do here as will be same every time.
         kickCmd = iot_pb2.WatchdogCmd()
         kickCmd.cmd = iot_pb2.ControllerCmd.C_WATCHDOG
-        kickCmd.uUID = self.machine.uuid
+        kickCmd.sessId = self.machine.sessId
 
         while self.stayAlive:
 
@@ -64,7 +64,7 @@ class MachineWatchdog(Thread):
                     kickCmd.tx = tx
 
                     # Try and send a watchdog command to the machine.
-                    self.machine.log.debug(f"Kicking watchdog for machine : {self.machine.uuid}; Transaction : {tx}; count : {self.wdCount}")
+                    self.machine.log.debug(f"Kicking watchdog for machine : {self.machine.sessId}; Transaction : {tx}; count : {self.wdCount}")
 
                     # Send a command to kick the machine watchdog.
                     response = stub.KickWatchdog(kickCmd)

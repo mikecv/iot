@@ -25,9 +25,9 @@ class ControllerCommands(iot_pb2_grpc.ControllerMessages):
         """
 
         if request.cmd == iot_pb2.ControllerCmd.C_WATCHDOG:
-            # Do a check that the machine UID is correct.
+            # Do a check that the machine session Id is correct.
             # If not a match then do nothing.
-            if request.uUID == self.machine.uUID:
+            if request.sessId == self.machine.sessId:
                 try:
                     # Reset the last watchdog kicked time.
                     # This is to know that the controller is still there.
