@@ -4,13 +4,15 @@ import grpc
 import iot_pb2 as iot_pb2
 import iot_pb2_grpc as iot_pb2_grpc
 
+from machine import *
+
 
 class ControllerCommands(iot_pb2_grpc.ControllerMessages):
     """
     GRPC ControllerMessages messaging class.
     """
 
-    def __init__(self, machine):
+    def __init__(self, machine) -> None:
         """
         Initialisation method.
         Parameters:
@@ -19,9 +21,12 @@ class ControllerCommands(iot_pb2_grpc.ControllerMessages):
 
         self.machine = machine
 
-    def KickWatchdog(self, request, context):
+    def KickWatchdog(self, request, context) -> None:
         """
         Respond to watchdog kick from the controller.
+        Parameters:
+            request : gRPC request message details.
+            context : gRPC message context.
         """
 
         if request.cmd == iot_pb2.ControllerCmd.C_WATCHDOG:

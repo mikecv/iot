@@ -2,6 +2,7 @@
 
 from concurrent import futures
 from threading import Thread
+import logging
 import time
 import grpc
 import iot_pb2 as iot_pb2
@@ -9,6 +10,7 @@ import iot_pb2_grpc as iot_pb2_grpc
 
 from constants import *
 from controllerCommands import *
+from config import *
 
 
 class Machine(Thread):   
@@ -17,7 +19,7 @@ class Machine(Thread):
     Derive from Thread class.
     """
 
-    def __init__(self, config, log):
+    def __init__(self, config: Config, log: logging) -> None:
         """
         Initialisation method.
         Parameters:
@@ -38,7 +40,7 @@ class Machine(Thread):
         # Initialise machine variables.
         self.sessId = 0
 
-    def run(self):
+    def run(self) -> None:
         """
         Run threaded method.
         Loop forever, checking for state transitions.
@@ -65,7 +67,7 @@ class Machine(Thread):
                 self.log.error(f"State not supported : {self.state}")
 
 
-    def wdKicked(self):
+    def wdKicked(self) -> None:
         """
         Watchdog kicked by controller so reset the kick time.
         Used to check that controller is still kicking (controlling)
@@ -74,7 +76,7 @@ class Machine(Thread):
 
         self.lastKickTime = time.time()
 
-    def initialise(self):
+    def initialise(self) -> None:
         """
         Initialise class variables and state.
         """
@@ -91,7 +93,7 @@ class Machine(Thread):
         self.registered = False
         self.state = MachineState.REGISTERING
 
-    def register(self):
+    def register(self) -> None:
         """
         Register the machine with the controller.
         """
@@ -147,7 +149,7 @@ class Machine(Thread):
         if self.registered == False:
             self.state = MachineState.TERMINATING
 
-    def process(self):
+    def process(self) -> None:
         """
         Machine is active and registered, so process.
         """

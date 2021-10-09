@@ -13,9 +13,11 @@ class Config():
     newer, the passed configuration file will be overwritten with new defaults.
     """
 
-    def __init__(self, configFile):
+    def __init__(self, configFile: str) -> None:
         """
         Class initialisation.
+        Parameters:
+            configFile : Configuration file name.
         """
 
         # Configuration filename.
@@ -55,7 +57,7 @@ class Config():
         # Read / update configuration from file.
         self.readConfig()
 
-    def readConfig(self):
+    def readConfig(self) -> None:
         """
         Attempt to read configuration file, and create default if it doesn't.
         If it exists then update this configuration class object with differences.
@@ -158,7 +160,7 @@ class Config():
             print("Saving default configuration data.")
             self.saveConfig()
         
-    def saveConfig(self):
+    def saveConfig(self) -> None:
         """
         Export and save the configuration class object to a json file.
         A default configuration file will be created if one doesn't exist,

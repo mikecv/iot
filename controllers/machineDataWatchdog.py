@@ -14,7 +14,7 @@ class MachineWatchdog(Thread):
     Kicks machine's watchdog periodically to make sure it is alive.
     """
 
-    def __init__(self, machine, wdTime, wdRetries):
+    def __init__(self, machine, wdTime, wdRetries) -> None:
         """
         Initialisation method.
         Parameters:
@@ -36,7 +36,7 @@ class MachineWatchdog(Thread):
         # Initialise state of the machine watchdog.
         self.stayAlive = True
 
-    def run(self):
+    def run(self) -> None:
         """
         Run threaded method.
         Loop forever, controller kicking machine watchdog.

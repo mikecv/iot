@@ -12,7 +12,7 @@ class MachineData(Thread):
     and received from a registered machine.
     """
 
-    def __init__(self, config, log, controller, sessId, machineName, machineIP, machinePort):
+    def __init__(self, config, log, controller, sessId, machineName, machineIP, machinePort) -> None:
         """
         Initialisation method.
         Parameters:
@@ -45,7 +45,7 @@ class MachineData(Thread):
         # Initialise state of the machine.
         self.stayAlive = True
 
-    def run(self):
+    def run(self) -> None:
         """
         Run threaded method.
         Loop forever and perform processing.
@@ -56,7 +56,7 @@ class MachineData(Thread):
 
             time.sleep(self.cfg.MCtrl["LoopTime"])
 
-    def dieMachineDie(self):
+    def dieMachineDie(self) -> None:
         """
         Machine needs to be killed off.
         This is most likely due to the machine not being responsive.
@@ -67,10 +67,12 @@ class MachineData(Thread):
         self.stayAlive = False
         self.controller.buryDeadMachine(self)
 
-    def getNextTxNumber(self):
+    def getNextTxNumber(self) -> int:
         """
         Return the next transaction number to be used for messages to the machine.
         Increment the transaction number for next message.
+        Returns:
+            Transaction number to use in message.
         """
 
         # Get current transaction number, and increment for next time.

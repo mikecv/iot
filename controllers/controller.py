@@ -2,6 +2,7 @@
 
 from concurrent import futures
 from threading import Thread
+import logging
 import time
 import grpc
 import iot_pb2_grpc as iot_pb2_grpc
@@ -9,6 +10,7 @@ import iot_pb2_grpc as iot_pb2_grpc
 from constants import *
 from machineCommands import *
 from machineData import *
+from config import *
 
 
 class Controller(Thread):   
@@ -17,7 +19,7 @@ class Controller(Thread):
     Derive from Thread class.
     """
 
-    def __init__(self, config, log):
+    def __init__(self, config: Config, log: logging) -> None:
         """
         Initialisation method.
         Parameters:
@@ -39,10 +41,12 @@ class Controller(Thread):
         self.stayAlive = True
         self.state = ControllerState.STARTING
 
-    def slotFree(self):
+    def slotFree(self) -> bool:
         """
         The controller only has capacity for a limited number of machines (slots).
         If number of slots used then return False so machine not registered.
+        Returns:
+            True if free slot available.
         """
 
         self.log.debug(f"Checking for free machine control slot...")
@@ -52,20 +56,28 @@ class Controller(Thread):
             freeSlot = False
         return freeSlot
 
-    def getNextSessId(self):
+    def getNextSessId(self) -> None:
         """
         Assign an Id for the machine.
         Increment the next session I for next time 
+        Returns:
+            Session Id to assign.
         """
         # Increment last session Id.
         self.lastSessionId += 1
         return self.lastSessionId
 
 
-    def regNewMachine(self, machineName, machineIP, machinePort):
+    def regNewMachine(self, machineName: str, machineIP: str, machinePort: int) -> int:
         """
         Register a new machine after allocating a session ID.
         Creates a registered machine data object.
+        Parameters:
+            machineName : Name of machine to register.
+            machineIP : Listening IP address on machine.
+            machinePort : Listening port on machine.
+        Returns:
+            Session Id assigned to machine.
         """
 
         # Get next session Id for this machine.
@@ -82,15 +94,7 @@ class Controller(Thread):
 
         return sessId
 
-    def noMachineSlots(self, machine):
-        """
-        Failed to register machine because no slots available.
-        """
-
-        print(f"Failed to register new machine as no slots available : {machine}")
-        self.log.debug(f"Failed to register new machine as no slots available : {machine}")
-
-    def run(self):
+    def run(self) -> None:
         """
         Run threaded method.
         Loop forever, checking for state transitions.
@@ -119,7 +123,7 @@ class Controller(Thread):
             else:
                 self.log.error(f"State not supported : {self.state}")
 
-    def initialise(self):
+    def initialise(self) -> None:
         """
         Initialise class variables and state.
         """
@@ -132,15 +136,17 @@ class Controller(Thread):
         # Transition to the active state.
         self.state = ControllerState.ACTIVE
 
-    def buryDeadMachine(self, machineData):
+    def buryDeadMachine(self, machineData) -> None:
         """
         Machine has died, so remove from list of active machines.
+        Parameters:
+            machineData : Machine data object to delete as machine killed off.
         """
 
         self.log.debug("Removing dead machine from list of active machines...")
         self.regMachines.remove(machineData)
 
-    def controlling(self):
+    def controlling(self) -> None:
         """
         Performing controlling functions.
         """

@@ -1,18 +1,21 @@
 #!/usr/bin/env python3
 
-
 from datetime import datetime
 import json
 import grpc
 import ui_pb2 as ui_pb2
 import ui_pb2_grpc as ui_pb2_grpc
 
+from config import *
+from controller import *
+
+
 class UiCommands(ui_pb2_grpc.UiMessages):
     """
     GRPC UiMessages messaging class.
     """
 
-    def __init__(self, config, controller):
+    def __init__(self, config: Config, ctrl: Controller) -> None:
         """
         Initialisation method.
         Parameters:
@@ -21,7 +24,7 @@ class UiCommands(ui_pb2_grpc.UiMessages):
         """
 
         self.cfg = config
-        self.ctrl = controller
+        self.ctrl = ctrl
 
     def GetControllerStatus(self, request, context):
         """
@@ -86,7 +89,7 @@ class UiCommands(ui_pb2_grpc.UiMessages):
         for m in self.ctrl.regMachines:
             mData = {
                 "machName" : m.machineName,
-                "machSessId" : str(m.sessId),
+                "machSessId" : m.sessId,
                 "machIp" : m.machineIP,
                 "machPort" : m.machinePort
             }

@@ -28,9 +28,10 @@ Via a gRPC interface a machine can send a registration request to the controller
 and if the Controller has not exceeded the maximum number of machines that it can
 connect to it will register the machine.
 
-Registration involves the controller issuing the machine a uuid that is required
-for future communications from the machine. This ensures alignment between the
-machine and the machine data object for the machine held by the controller.
+Registration involves the controller issuing the machine a session Id that is
+required for future communications from the machine. This ensures alignment
+between the machine and the machine data object for the machine held by the
+controller.
 
 --------------------------------------------------------------------------------
 2.2 - Watchdogs

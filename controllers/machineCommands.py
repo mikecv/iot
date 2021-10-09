@@ -10,12 +10,21 @@ class MachineCommands(iot_pb2_grpc.MachineMessages):
     GRPC MachineMessages messaging class.
     """
 
-    def __init__(self, controller):
-        self.ctrl = controller
+    def __init__(self, ctrl) -> None:
+        """
+        Initialisation method.
+        Parameters:
+            controller : Controller object listening.
+        """
 
-    def RegisterMachine(self, request, context):
+        self.ctrl = ctrl
+
+    def RegisterMachine(self, request, context) -> iot_pb2.RegisterResp:
         """
         Respond to register machine request from machine.
+        Parameters:
+            request : gRPC request message details.
+            context : gRPC message context.
         """
 
         if request.cmd == iot_pb2.MachineCmd.M_REGISTER:

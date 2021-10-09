@@ -25,7 +25,7 @@ progVersion = "0.1"
 progDate = "2021"
 
 # Program main.
-def main(cFile, lFile):
+def main(cFile: str, lFile: str) -> None:
     """
     Controller mainline.
     Parameters:

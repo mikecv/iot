@@ -16,7 +16,7 @@ class UIServer(Thread):
     Derive from Thread class.
     """
 
-    def __init__(self, config, log, controller):
+    def __init__(self, config, log, controller) -> None:
         """
         Initialisation method.
         Parameters:
@@ -33,7 +33,7 @@ class UIServer(Thread):
         # Initialise state of the controller.
         self.stayAlive = True
 
-    def run(self):
+    def run(self) -> None:
         """
         Run threaded method.
         Loop forever, checking for ui requests.
@@ -52,7 +52,7 @@ class UIServer(Thread):
         while self.stayAlive:
             time.sleep(self.cfg.UI["UISleep"])
 
-    def stopServingUI(self):
+    def stopServingUI(self) -> None:
         """
         Method to stop serving UI data.
         """
